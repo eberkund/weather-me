@@ -1,0 +1,14 @@
+version: v2
+lint:
+  use:
+    - STANDARD
+  rpc_allow_same_request_response: true
+  rpc_allow_google_protobuf_empty_requests: true
+  rpc_allow_google_protobuf_empty_responses: true
+modules:
+  - path: proto
+breaking:
+  use:
+    - FILE
+deps:
+  - buf.build/bufbuild/protovalidate
