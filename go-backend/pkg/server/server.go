@@ -8,7 +8,6 @@ import (
 	connectcors "connectrpc.com/cors"
 	"connectrpc.com/grpcreflect"
 	"github.com/eberkund/weather-me/gen/weather/v1/weatherv1connect"
-	"github.com/eberkund/weather-me/pkg/server/middleware"
 	"github.com/justinas/alice"
 	"github.com/rs/cors"
 	"golang.org/x/net/http2"
@@ -17,7 +16,6 @@ import (
 
 type Builder struct {
 	weather *WeatherHandler
-	auth    *middleware.Auth
 	cors    *cors.Cors
 	port    int
 }
@@ -47,7 +45,6 @@ func (n *Builder) Build(ctx context.Context) *http.Server {
 	chain := alice.New(
 		LogRequests(),
 		n.cors.Handler,
-		n.auth.Middleware().Wrap,
 	).Then(mux)
 	addr := &net.TCPAddr{Port: n.port}
 	return &http.Server{

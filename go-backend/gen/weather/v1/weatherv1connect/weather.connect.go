@@ -33,15 +33,15 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// WeatherServiceGetWeatherProcedure is the fully-qualified name of the WeatherService's GetWeather
+	// WeatherServiceGetWeatherProcedure is the fully-qualified name of the WeatherService's Current
 	// RPC.
-	WeatherServiceGetWeatherProcedure = "/weather.v1.WeatherService/GetWeather"
+	WeatherServiceGetWeatherProcedure = "/weather.v1.WeatherService/Current"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
 	weatherServiceServiceDescriptor          = v1.File_weather_v1_weather_proto.Services().ByName("WeatherService")
-	weatherServiceGetWeatherMethodDescriptor = weatherServiceServiceDescriptor.Methods().ByName("GetWeather")
+	weatherServiceGetWeatherMethodDescriptor = weatherServiceServiceDescriptor.Methods().ByName("Current")
 )
 
 // WeatherServiceClient is a client for the weather.v1.WeatherService service.
@@ -73,7 +73,7 @@ type weatherServiceClient struct {
 	getWeather *connect.Client[v1.GetWeatherRequest, v1.GetWeatherResponse]
 }
 
-// GetWeather calls weather.v1.WeatherService.GetWeather.
+// GetWeather calls weather.v1.WeatherService.Current.
 func (c *weatherServiceClient) GetWeather(ctx context.Context, req *connect.Request[v1.GetWeatherRequest]) (*connect.Response[v1.GetWeatherResponse], error) {
 	return c.getWeather.CallUnary(ctx, req)
 }
@@ -109,5 +109,5 @@ func NewWeatherServiceHandler(svc WeatherServiceHandler, opts ...connect.Handler
 type UnimplementedWeatherServiceHandler struct{}
 
 func (UnimplementedWeatherServiceHandler) GetWeather(context.Context, *connect.Request[v1.GetWeatherRequest]) (*connect.Response[v1.GetWeatherResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("weather.v1.WeatherService.GetWeather is not implemented"))
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("weather.v1.WeatherService.Current is not implemented"))
 }

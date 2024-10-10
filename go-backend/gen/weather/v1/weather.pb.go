@@ -228,8 +228,8 @@ var file_weather_v1_weather_proto_goTypes = []any{
 }
 var file_weather_v1_weather_proto_depIdxs = []int32{
 	0, // 0: weather.v1.GetWeatherRequest.provider:type_name -> weather.v1.WeatherProvider
-	1, // 1: weather.v1.WeatherService.GetWeather:input_type -> weather.v1.GetWeatherRequest
-	2, // 2: weather.v1.WeatherService.GetWeather:output_type -> weather.v1.GetWeatherResponse
+	1, // 1: weather.v1.WeatherService.Current:input_type -> weather.v1.GetWeatherRequest
+	2, // 2: weather.v1.WeatherService.Current:output_type -> weather.v1.GetWeatherResponse
 	2, // [2:3] is the sub-list for method output_type
 	1, // [1:2] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name

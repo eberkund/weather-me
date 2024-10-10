@@ -1,10 +1,16 @@
-// go:generate go-enum --marshal --lower
+//go:generate go-enum --marshal --lower
 
 package providers
 
+import "context"
+
 type ProvidesWeather interface {
-	GetWeather() (string, error)
+	Current(ctx context.Context, city string) (string, error)
+	Forecast(ctx context.Context, city string) (string, error)
 }
 
-// ENUM(OpenWeather)
+// WeatherProvider is the available weather providers.
+// ENUM(
+// OpenWeather
+// )
 type WeatherProvider string

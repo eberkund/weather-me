@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package weather.v1;
 
-option go_package = "github.com/eberkund/weather-me/go-backend/gen/weather/v1;weatherv1";
+option go_package = "github.com/eberkund/weather-me/gen/weather/v1;weatherv1";
 
 message GetWeatherRequest {
   string city = 1;
