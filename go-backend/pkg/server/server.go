@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"github.com/AlekSi/pointer"
 	"net"
 	"net/http"
 
@@ -35,20 +36,17 @@ func NewServer(weather *WeatherHandler, port int, origins []string) *Builder {
 
 func (n *Builder) Build(ctx context.Context) *http.Server {
 	mux := http.NewServeMux()
-
 	mux.Handle(weatherv1connect.NewWeatherServiceHandler(n.weather))
-
 	reflector := grpcreflect.NewStaticReflector(weatherv1connect.WeatherServiceName)
 	mux.Handle(grpcreflect.NewHandlerV1(reflector))
-	mux.Handle(grpcreflect.NewHandlerV1Alpha(reflector))
 
 	chain := alice.New(
 		LogRequests(),
 		n.cors.Handler,
 	).Then(mux)
-	addr := &net.TCPAddr{Port: n.port}
+
 	return &http.Server{
-		Addr:    addr.String(),
+		Addr:    pointer.To(net.TCPAddr{Port: n.port}).String(),
 		Handler: h2c.NewHandler(chain, &http2.Server{}),
 		BaseContext: func(_ net.Listener) context.Context {
 			return ctx

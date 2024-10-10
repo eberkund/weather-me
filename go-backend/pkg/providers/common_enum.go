@@ -12,8 +12,8 @@ import (
 )
 
 const (
-	// WeatherProviderOpenWeather is a WeatherProvider of type OpenWeather.
-	WeatherProviderOpenWeather WeatherProvider = "OpenWeather"
+	// WeatherProviderOpenWeather is a WeatherProvider of type WeatherAPI.
+	WeatherProviderOpenWeather WeatherProvider = "WeatherAPI"
 )
 
 var ErrInvalidWeatherProvider = errors.New("not a valid WeatherProvider")
@@ -31,7 +31,7 @@ func (x WeatherProvider) IsValid() bool {
 }
 
 var _WeatherProviderValue = map[string]WeatherProvider{
-	"OpenWeather": WeatherProviderOpenWeather,
+	"WeatherAPI": WeatherProviderOpenWeather,
 	"openweather": WeatherProviderOpenWeather,
 }
 

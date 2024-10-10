@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/eberkund/weather-me/pkg/providers"
 	"github.com/go-faster/errors"
+	"github.com/rs/zerolog/log"
 
 	"connectrpc.com/connect"
 	weatherv1 "github.com/eberkund/weather-me/gen/weather/v1"
@@ -12,8 +13,10 @@ import (
 
 var _ weatherv1connect.WeatherServiceHandler = (*WeatherHandler)(nil)
 
-func NewWeatherHandler() *WeatherHandler {
-	return &WeatherHandler{}
+func NewWeatherHandler(providers map[weatherv1.WeatherProvider]providers.ProvidesWeather) *WeatherHandler {
+	return &WeatherHandler{
+		providers: providers,
+	}
 }
 
 type WeatherHandler struct {
@@ -21,8 +24,10 @@ type WeatherHandler struct {
 }
 
 func (h *WeatherHandler) GetWeather(ctx context.Context, req *connect.Request[weatherv1.GetWeatherRequest]) (*connect.Response[weatherv1.GetWeatherResponse], error) {
+	log.Info().Msg("get weather request")
 	provider, implemented := h.providers[req.Msg.Provider]
 	if !implemented {
+		log.Info().Msg("not implemented")
 		return nil, connect.NewError(
 			connect.CodeUnimplemented,
 			errors.Errorf("provider %s not implemented", req.Msg.Provider),

@@ -11,6 +11,6 @@ type ProvidesWeather interface {
 
 // WeatherProvider is the available weather providers.
 // ENUM(
-// OpenWeather
+// WeatherAPI
 // )
 type WeatherProvider string

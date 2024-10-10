@@ -17,7 +17,7 @@ import { WeatherProvider } from "./gen/weather/v1/weather_pb";
 const client = createPromiseClient(
   WeatherService,
   createGrpcWebTransport({
-    baseUrl: "http://localhost:8080",
+    baseUrl: "http://localhost:4000",
     useBinaryFormat: true,
   })
 );
