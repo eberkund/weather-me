@@ -2,12 +2,20 @@ syntax = "proto3";
 
 package weather.v1;
 
+option go_package = "github.com/eberkund/weather-me/go-backend/gen/weather/v1;weatherv1";
+
 message GetWeatherRequest {
   string city = 1;
+  WeatherProvider provider = 2;
 }
 
 message GetWeatherResponse {
   string weather = 1;
+}
+
+enum WeatherProvider {
+  WEATHER_PROVIDER_UNSPECIFIED = 0;
+  WEATHER_PROVIDER_OPEN_WEATHER = 1;
 }
 
 service WeatherService {

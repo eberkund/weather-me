@@ -2,24 +2,35 @@ version: v2
 managed:
   enabled: true
 plugins:
+  # Rust
   - remote: buf.build/community/neoeinstein-prost:v0.4.0
-    out: src/gen
+    out: rust-backend/src/gen
     opt:
       - enable_type_names
   
   - remote: buf.build/community/neoeinstein-prost-serde:v0.3.1
-    out: src/gen
+    out: rust-backend/src/gen
   
   - remote: buf.build/community/neoeinstein-tonic:v0.4.1
-    out: src/gen
+    out: rust-backend/src/gen
     opt:
       - no_client=true
 
   - remote: buf.build/community/neoeinstein-prost-crate:v0.4.1
-    out: src/gen
+    out: rust-backend/src/gen
     opt:
       - no_features
 
+  # Go
+  - remote: buf.build/connectrpc/go:v1.16.2
+    out: go-backend/gen
+    opt: paths=source_relative
+
+  - remote: buf.build/protocolbuffers/go:v1.34.2
+    out: go-backend/gen
+    opt: paths=source_relative
+
+  # Frontend
   - remote: buf.build/connectrpc/es:v1.5.0
     out: frontend/src/gen
     opt: target=ts

@@ -7,6 +7,26 @@ import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialM
 import { Message, proto3 } from "@bufbuild/protobuf";
 
 /**
+ * @generated from enum weather.v1.WeatherProvider
+ */
+export enum WeatherProvider {
+  /**
+   * @generated from enum value: WEATHER_PROVIDER_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: WEATHER_PROVIDER_OPEN_WEATHER = 1;
+   */
+  OPEN_WEATHER = 1,
+}
+// Retrieve enum metadata with: proto3.getEnumType(WeatherProvider)
+proto3.util.setEnumType(WeatherProvider, "weather.v1.WeatherProvider", [
+  { no: 0, name: "WEATHER_PROVIDER_UNSPECIFIED" },
+  { no: 1, name: "WEATHER_PROVIDER_OPEN_WEATHER" },
+]);
+
+/**
  * @generated from message weather.v1.GetWeatherRequest
  */
 export class GetWeatherRequest extends Message<GetWeatherRequest> {
@@ -14,6 +34,11 @@ export class GetWeatherRequest extends Message<GetWeatherRequest> {
    * @generated from field: string city = 1;
    */
   city = "";
+
+  /**
+   * @generated from field: weather.v1.WeatherProvider provider = 2;
+   */
+  provider = WeatherProvider.UNSPECIFIED;
 
   constructor(data?: PartialMessage<GetWeatherRequest>) {
     super();
@@ -24,6 +49,7 @@ export class GetWeatherRequest extends Message<GetWeatherRequest> {
   static readonly typeName = "weather.v1.GetWeatherRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "city", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "provider", kind: "enum", T: proto3.getEnumType(WeatherProvider) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetWeatherRequest {
