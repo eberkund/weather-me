@@ -57,14 +57,14 @@ type RealtimeWeatherResponse struct {
 		} `json:"condition"`
 		WindMph       float64 `json:"wind_mph"`
 		WindKph       float64 `json:"wind_kph"`
-		WindDegree    int     `json:"wind_degree"`
+		WindDegree    float64 `json:"wind_degree"`
 		WindDirection string  `json:"wind_dir"`
-		PressureMb    int     `json:"pressure_mb"`
+		PressureMb    float64 `json:"pressure_mb"`
 		PressureIn    float64 `json:"pressure_in"`
 		PrecipMm      float64 `json:"precip_mm"`
-		PrecipIn      int     `json:"precip_in"`
-		Humidity      int     `json:"humidity"`
-		Cloud         int     `json:"cloud"`
+		PrecipIn      float64 `json:"precip_in"`
+		Humidity      float64 `json:"humidity"`
+		Cloud         float64 `json:"cloud"`
 		FeelslikeC    float64 `json:"feelslike_c"`
 		FeelslikeF    float64 `json:"feelslike_f"`
 		WindchillC    float64 `json:"windchill_c"`
@@ -73,8 +73,8 @@ type RealtimeWeatherResponse struct {
 		HeatIndexF    float64 `json:"heatindex_f"`
 		DewPointC     float64 `json:"dewpoint_c"`
 		DewPointF     float64 `json:"dewpoint_f"`
-		VisibleKms    int     `json:"vis_km"`
-		VisibleMiles  int     `json:"vis_miles"`
+		VisibleKms    float64 `json:"vis_km"`
+		VisibleMiles  float64 `json:"vis_miles"`
 		UV            float64 `json:"uv"`
 		GustMph       float64 `json:"gust_mph"`
 		GustKph       float64 `json:"gust_kph"`
@@ -105,9 +105,9 @@ func (o *WeatherAPI) Current(ctx context.Context, lat float64, lng float64) (*pr
 	}
 	return &providers.CurrentResponse{
 		Temperature: decoded.Current.TempC,
-		Humidity:    decoded.Current.Humidity,
+		Humidity:    int(decoded.Current.Humidity),
 		UVIndex:     int(decoded.Current.UV),
-		Visibility:  decoded.Current.VisibleKms,
+		Visibility:  int(decoded.Current.VisibleKms),
 	}, nil
 }
 

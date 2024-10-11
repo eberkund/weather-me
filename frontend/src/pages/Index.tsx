@@ -32,6 +32,7 @@ import { PKResult } from "@placekit/client-js";
 import { client, providersMap } from "~/services/api";
 import { GetCurrentResponse } from "~/gen/weather/v1/weather_pb";
 import dayjs from "dayjs";
+import { twMerge } from "tailwind-merge";
 
 const days = [
   {
@@ -74,23 +75,23 @@ const days = [
 export function Index() {
   const [places, setPlaces] = useState<Place[]>(getPlaces());
   const [current, setCurrent] = useState<GetCurrentResponse | null>(null);
+  const [active, setActive] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (places.length > 0) {
+      if (active < places.length) {
         const current = await client.getCurrent({
-          longitude: places[0].lon,
-          latitude: places[0].lat,
+          longitude: places[active].lon,
+          latitude: places[active].lat,
           provider: providersMap.get(getSettings().provider),
         });
-        console.log(current);
         setCurrent(current);
       } else {
         setCurrent(null);
       }
     };
     fetchData();
-  }, [places]);
+  }, [places,active]);
 
   function onRemoveCity(idx: number) {
     places.splice(idx, 1);
@@ -110,6 +111,10 @@ export function Index() {
     setPlaces([...places, place]);
   }
 
+  function selectPlace(index: number) {
+    setActive(index);
+  }
+
   return (
     <div className="flex">
       <div className="flex-initial min-w-96 bg-white/30 p-8">
@@ -123,7 +128,11 @@ export function Index() {
         </div>
         <div className="flex flex-col gap-y-5">
           {places.map((place, i) => (
-            <Card key={i} className="hover:bg-slate-300 active:ring-2 ">
+            <Card
+              key={i}
+              className={twMerge("hover:bg-slate-300 active:ring-2", active===i && "ring-2 ring-lime-300")}
+              onClick={() => selectPlace(i)}
+            >
               <div className="flex items-center gap-x-3">
                 <img src={mapPin} />
                 <div className="flex-grow">
