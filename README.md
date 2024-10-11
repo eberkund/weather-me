@@ -5,3 +5,4 @@
 
 - [PlaceKit](https://placekit.io/)
 - [WeatherAPI](https://www.weatherapi.com/)
+- [OpenWeather](https://openweathermap.org/)
