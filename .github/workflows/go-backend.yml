@@ -6,7 +6,7 @@ permissions:
   contents: read
   pull-requests: write
   checks: write
-  
+
 jobs:
   unit:
     runs-on: ubuntu-latest
@@ -18,11 +18,12 @@ jobs:
 
       - uses: actions/setup-go@v5
         with:
-          go-version-file: "go.mod"
+          go-version-file: go-backend/go.mod
 
       - uses: golangci/golangci-lint-action@v6
         with:
           version: v1.61
+          working-directory: go-backend
 
       - uses: bufbuild/buf-action@v1
         with:
