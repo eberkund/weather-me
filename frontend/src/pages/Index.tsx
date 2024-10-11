@@ -85,6 +85,8 @@ export function Index() {
         });
         console.log(current);
         setCurrent(current);
+      } else {
+        setCurrent(null);
       }
     };
     fetchData();
@@ -114,7 +116,6 @@ export function Index() {
         <img src={logo} alt="" />
         <div className="my-5">
           <PlaceKit
-            // className="border-0"
             geolocation={false}
             onPick={onPick}
             apiKey={environment.VITE_PLACEKIT_API_KEY}
