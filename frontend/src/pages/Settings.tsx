@@ -8,14 +8,13 @@ import {
   Frequency,
   getSettings,
   Pressure,
-  Provider,
   saveSettings,
   Temperature,
   Time,
   WindSpeed,
+  Provider,
   type UserSettings,
-} from "~/storage";
-
+} from "~/services/storage";
 export function Settings() {
   const {
     register,
@@ -38,11 +37,11 @@ export function Settings() {
   return (
     <div className="p-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Settings</h1>
+        <h1 className="text-3xl font-bold">Settings</h1>
         <div>
           <Button asChild>
             <Link href="/">
-              <X size={24} width={24} height={24} />
+              <X size={24} />
             </Link>
           </Button>
         </div>
@@ -54,7 +53,7 @@ export function Settings() {
               Provider
             </h2>
             <div>
-              <label className="text-settings">Forecast Provider</label>
+              <label className="text-settings text-sm">Forecast Provider</label>
               <select
                 {...register("provider")}
                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900  focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -68,9 +67,9 @@ export function Settings() {
         </div>
         <Card>
           <h2 className="text-settings text-xl font-semibold mb-3">Unit</h2>
-          <div className="flex flex-col gap-y-5">
+          <div className="flex flex-col gap-y-4">
             <div>
-              <label className="text-settings">Temperature</label>
+              <label className="text-settings text-sm">Temperature</label>
               <select
                 {...register("temperature")}
                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900  focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -81,7 +80,7 @@ export function Settings() {
               </select>
             </div>
             <div>
-              <label className="text-settings">Wind Speed</label>
+              <label className="text-settings text-sm">Wind Speed</label>
               <select
                 {...register("windSpeed")}
                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900  focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -92,7 +91,7 @@ export function Settings() {
               </select>
             </div>
             <div>
-              <label className="text-settings">Pressure</label>
+              <label className="text-settings text-sm">Pressure</label>
               <select
                 {...register("pressure")}
                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900  focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -103,7 +102,7 @@ export function Settings() {
               </select>
             </div>
             <div>
-              <label className="text-settings">Distance</label>
+              <label className="text-settings text-sm">Distance</label>
               <select
                 {...register("distance")}
                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900  focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -117,9 +116,9 @@ export function Settings() {
         </Card>
         <Card>
           <h2 className="text-settings text-xl font-semibold mb-3">General</h2>
-          <div className="flex flex-col gap-y-5">
+          <div className="flex flex-col gap-y-4">
             <div>
-              <label className="text-settings">Notifications</label>
+              <label className="text-settings text-sm">Notifications</label>
               <select
                 {...register("notifications")}
                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900  focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -129,7 +128,7 @@ export function Settings() {
               </select>
             </div>
             <div>
-              <label className="text-settings">Frequency</label>
+              <label className="text-settings text-sm">Frequency</label>
               <select
                 {...register("frequency")}
                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900  focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -140,7 +139,7 @@ export function Settings() {
               </select>
             </div>
             <div>
-              <label className="text-settings">Time</label>
+              <label className="text-settings text-sm">Time</label>
               <select
                 {...register("time")}
                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900  focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"

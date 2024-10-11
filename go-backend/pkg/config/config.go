@@ -7,9 +7,16 @@ import (
 )
 
 type Config struct {
-	Port          int      `env:"PORT,default=4000"`
-	Origins       []string `env:"ORIGINS,default=*"`
-	WeatherAPIKey string   `env:"WEATHER_API_KEY"`
+	Log            Log
+	Port           int      `env:"PORT,default=4000"`
+	Origins        []string `env:"ORIGINS,default=*"`
+	WeatherAPIKey  string   `env:"WEATHERAPI_KEY,required"`
+	OpenWeatherKey string   `env:"OPENWEATHER_KEY,required"`
+}
+
+type Log struct {
+	Pretty  bool `env:"LOG_PRETTY,default=false"`
+	Verbose bool `env:"LOG_VERBOSE,default=false"`
 }
 
 func FromEnv(ctx context.Context) (*Config, error) {

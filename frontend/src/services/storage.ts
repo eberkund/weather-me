@@ -69,22 +69,26 @@ export function getSettings(): UserSettings {
   return settings ? JSON.parse(settings) : defaultSettings;
 }
 
-export interface City {
-  name: string;
+export interface Place {
+  city: string;
+  country: string;
+  lat: number;
+  lon: number;
 }
 
-export function addCity(city: City) {
-  const cities = getCities();
-  localStorage.setItem("cities", JSON.stringify([...cities, city]));
+export function addPlace(place: Place) {
+  const places = getPlaces();
+  localStorage.setItem("places", JSON.stringify([...places, place]));
 }
 
 export function removeCity(idx: number) {
-  const cities = getCities();
-  cities.splice(idx, 1);
-  localStorage.setItem("cities", JSON.stringify(cities));
+  const places = getPlaces();
+  console.log("before", places);
+  places.splice(idx, 1);
+  localStorage.setItem("places", JSON.stringify(places));
 }
 
-export function getCities(): City[] {
-  const cities = localStorage.getItem("cities");
-  return cities ? JSON.parse(cities) : [];
+export function getPlaces(): Place[] {
+  const places = localStorage.getItem("places");
+  return places ? JSON.parse(places) : [];
 }

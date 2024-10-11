@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { GetWeatherRequest, GetWeatherResponse } from "./weather_pb.js";
+import { GetCurrentRequest, GetCurrentResponse, GetForecastRequest, GetForecastResponse } from "./weather_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -13,12 +13,21 @@ export const WeatherService = {
   typeName: "weather.v1.WeatherService",
   methods: {
     /**
-     * @generated from rpc weather.v1.WeatherService.GetWeather
+     * @generated from rpc weather.v1.WeatherService.GetCurrent
      */
-    getWeather: {
-      name: "GetWeather",
-      I: GetWeatherRequest,
-      O: GetWeatherResponse,
+    getCurrent: {
+      name: "GetCurrent",
+      I: GetCurrentRequest,
+      O: GetCurrentResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc weather.v1.WeatherService.GetForecast
+     */
+    getForecast: {
+      name: "GetForecast",
+      I: GetForecastRequest,
+      O: GetForecastResponse,
       kind: MethodKind.Unary,
     },
   }

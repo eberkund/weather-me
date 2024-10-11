@@ -16,93 +16,215 @@ export enum WeatherProvider {
   UNSPECIFIED = 0,
 
   /**
-   * @generated from enum value: WEATHER_PROVIDER_OPEN_WEATHER = 1;
+   * @generated from enum value: WEATHER_PROVIDER_OPENWEATHER = 1;
    */
-  OPEN_WEATHER = 1,
+  OPENWEATHER = 1,
+
+  /**
+   * @generated from enum value: WEATHER_PROVIDER_WEATHERAPI = 2;
+   */
+  WEATHERAPI = 2,
 }
 // Retrieve enum metadata with: proto3.getEnumType(WeatherProvider)
 proto3.util.setEnumType(WeatherProvider, "weather.v1.WeatherProvider", [
   { no: 0, name: "WEATHER_PROVIDER_UNSPECIFIED" },
-  { no: 1, name: "WEATHER_PROVIDER_OPEN_WEATHER" },
+  { no: 1, name: "WEATHER_PROVIDER_OPENWEATHER" },
+  { no: 2, name: "WEATHER_PROVIDER_WEATHERAPI" },
 ]);
 
 /**
- * @generated from message weather.v1.GetWeatherRequest
+ * @generated from message weather.v1.GetCurrentRequest
  */
-export class GetWeatherRequest extends Message<GetWeatherRequest> {
+export class GetCurrentRequest extends Message<GetCurrentRequest> {
   /**
-   * @generated from field: string city = 1;
+   * @generated from field: float latitude = 1;
    */
-  city = "";
+  latitude = 0;
 
   /**
-   * @generated from field: weather.v1.WeatherProvider provider = 2;
+   * @generated from field: float longitude = 2;
+   */
+  longitude = 0;
+
+  /**
+   * @generated from field: weather.v1.WeatherProvider provider = 3;
    */
   provider = WeatherProvider.UNSPECIFIED;
 
-  constructor(data?: PartialMessage<GetWeatherRequest>) {
+  constructor(data?: PartialMessage<GetCurrentRequest>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "weather.v1.GetWeatherRequest";
+  static readonly typeName = "weather.v1.GetCurrentRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "city", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "provider", kind: "enum", T: proto3.getEnumType(WeatherProvider) },
+    { no: 1, name: "latitude", kind: "scalar", T: 2 /* ScalarType.FLOAT */ },
+    { no: 2, name: "longitude", kind: "scalar", T: 2 /* ScalarType.FLOAT */ },
+    { no: 3, name: "provider", kind: "enum", T: proto3.getEnumType(WeatherProvider) },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetWeatherRequest {
-    return new GetWeatherRequest().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetCurrentRequest {
+    return new GetCurrentRequest().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetWeatherRequest {
-    return new GetWeatherRequest().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetCurrentRequest {
+    return new GetCurrentRequest().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetWeatherRequest {
-    return new GetWeatherRequest().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetCurrentRequest {
+    return new GetCurrentRequest().fromJsonString(jsonString, options);
   }
 
-  static equals(a: GetWeatherRequest | PlainMessage<GetWeatherRequest> | undefined, b: GetWeatherRequest | PlainMessage<GetWeatherRequest> | undefined): boolean {
-    return proto3.util.equals(GetWeatherRequest, a, b);
+  static equals(a: GetCurrentRequest | PlainMessage<GetCurrentRequest> | undefined, b: GetCurrentRequest | PlainMessage<GetCurrentRequest> | undefined): boolean {
+    return proto3.util.equals(GetCurrentRequest, a, b);
   }
 }
 
 /**
- * @generated from message weather.v1.GetWeatherResponse
+ * @generated from message weather.v1.GetCurrentResponse
  */
-export class GetWeatherResponse extends Message<GetWeatherResponse> {
+export class GetCurrentResponse extends Message<GetCurrentResponse> {
   /**
-   * @generated from field: string weather = 1;
+   * @generated from field: float temperature = 1;
    */
-  weather = "";
+  temperature = 0;
 
-  constructor(data?: PartialMessage<GetWeatherResponse>) {
+  /**
+   * @generated from field: float humidity = 2;
+   */
+  humidity = 0;
+
+  /**
+   * @generated from field: float uv_index = 3;
+   */
+  uvIndex = 0;
+
+  /**
+   * @generated from field: int32 visibility = 4;
+   */
+  visibility = 0;
+
+  /**
+   * @generated from field: float wind_speed = 5;
+   */
+  windSpeed = 0;
+
+  constructor(data?: PartialMessage<GetCurrentResponse>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "weather.v1.GetWeatherResponse";
+  static readonly typeName = "weather.v1.GetCurrentResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "weather", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "temperature", kind: "scalar", T: 2 /* ScalarType.FLOAT */ },
+    { no: 2, name: "humidity", kind: "scalar", T: 2 /* ScalarType.FLOAT */ },
+    { no: 3, name: "uv_index", kind: "scalar", T: 2 /* ScalarType.FLOAT */ },
+    { no: 4, name: "visibility", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 5, name: "wind_speed", kind: "scalar", T: 2 /* ScalarType.FLOAT */ },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetWeatherResponse {
-    return new GetWeatherResponse().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetCurrentResponse {
+    return new GetCurrentResponse().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetWeatherResponse {
-    return new GetWeatherResponse().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetCurrentResponse {
+    return new GetCurrentResponse().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetWeatherResponse {
-    return new GetWeatherResponse().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetCurrentResponse {
+    return new GetCurrentResponse().fromJsonString(jsonString, options);
   }
 
-  static equals(a: GetWeatherResponse | PlainMessage<GetWeatherResponse> | undefined, b: GetWeatherResponse | PlainMessage<GetWeatherResponse> | undefined): boolean {
-    return proto3.util.equals(GetWeatherResponse, a, b);
+  static equals(a: GetCurrentResponse | PlainMessage<GetCurrentResponse> | undefined, b: GetCurrentResponse | PlainMessage<GetCurrentResponse> | undefined): boolean {
+    return proto3.util.equals(GetCurrentResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message weather.v1.GetForecastRequest
+ */
+export class GetForecastRequest extends Message<GetForecastRequest> {
+  /**
+   * @generated from field: float latitude = 1;
+   */
+  latitude = 0;
+
+  /**
+   * @generated from field: float longitude = 2;
+   */
+  longitude = 0;
+
+  /**
+   * @generated from field: weather.v1.WeatherProvider provider = 3;
+   */
+  provider = WeatherProvider.UNSPECIFIED;
+
+  constructor(data?: PartialMessage<GetForecastRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "weather.v1.GetForecastRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "latitude", kind: "scalar", T: 2 /* ScalarType.FLOAT */ },
+    { no: 2, name: "longitude", kind: "scalar", T: 2 /* ScalarType.FLOAT */ },
+    { no: 3, name: "provider", kind: "enum", T: proto3.getEnumType(WeatherProvider) },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetForecastRequest {
+    return new GetForecastRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetForecastRequest {
+    return new GetForecastRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetForecastRequest {
+    return new GetForecastRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetForecastRequest | PlainMessage<GetForecastRequest> | undefined, b: GetForecastRequest | PlainMessage<GetForecastRequest> | undefined): boolean {
+    return proto3.util.equals(GetForecastRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message weather.v1.GetForecastResponse
+ */
+export class GetForecastResponse extends Message<GetForecastResponse> {
+  /**
+   * @generated from field: float temperature = 1;
+   */
+  temperature = 0;
+
+  constructor(data?: PartialMessage<GetForecastResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "weather.v1.GetForecastResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "temperature", kind: "scalar", T: 2 /* ScalarType.FLOAT */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetForecastResponse {
+    return new GetForecastResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetForecastResponse {
+    return new GetForecastResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetForecastResponse {
+    return new GetForecastResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetForecastResponse | PlainMessage<GetForecastResponse> | undefined, b: GetForecastResponse | PlainMessage<GetForecastResponse> | undefined): boolean {
+    return proto3.util.equals(GetForecastResponse, a, b);
   }
 }
 

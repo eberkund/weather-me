@@ -4,20 +4,37 @@ package weather.v1;
 
 option go_package = "github.com/eberkund/weather-me/gen/weather/v1;weatherv1";
 
-message GetWeatherRequest {
-  string city = 1;
-  WeatherProvider provider = 2;
+message GetCurrentRequest {
+  float latitude = 1;
+  float longitude = 2;
+  WeatherProvider provider = 3;
 }
 
-message GetWeatherResponse {
-  string weather = 1;
+message GetCurrentResponse {
+  float temperature = 1;
+  float humidity = 2;
+  float uv_index = 3;
+  int32 visibility = 4;
+  float wind_speed = 5;
 }
 
 enum WeatherProvider {
   WEATHER_PROVIDER_UNSPECIFIED = 0;
-  WEATHER_PROVIDER_OPEN_WEATHER = 1;
+  WEATHER_PROVIDER_OPENWEATHER = 1;
+  WEATHER_PROVIDER_WEATHERAPI = 2;
+}
+
+message GetForecastRequest {
+  float latitude = 1;
+  float longitude = 2;
+  WeatherProvider provider = 3;
+}
+
+message GetForecastResponse {
+  float temperature = 1;
 }
 
 service WeatherService {
-  rpc GetWeather(GetWeatherRequest) returns (GetWeatherResponse) {}
+  rpc GetCurrent(GetCurrentRequest) returns (GetCurrentResponse) {}
+  rpc GetForecast(GetForecastRequest) returns (GetForecastResponse) {}
 }

@@ -33,20 +33,25 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// WeatherServiceGetWeatherProcedure is the fully-qualified name of the WeatherService's GetWeather
+	// WeatherServiceGetCurrentProcedure is the fully-qualified name of the WeatherService's GetCurrent
 	// RPC.
-	WeatherServiceGetWeatherProcedure = "/weather.v1.WeatherService/GetWeather"
+	WeatherServiceGetCurrentProcedure = "/weather.v1.WeatherService/GetCurrent"
+	// WeatherServiceGetForecastProcedure is the fully-qualified name of the WeatherService's
+	// GetForecast RPC.
+	WeatherServiceGetForecastProcedure = "/weather.v1.WeatherService/GetForecast"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	weatherServiceServiceDescriptor          = v1.File_weather_v1_weather_proto.Services().ByName("WeatherService")
-	weatherServiceGetWeatherMethodDescriptor = weatherServiceServiceDescriptor.Methods().ByName("GetWeather")
+	weatherServiceServiceDescriptor           = v1.File_weather_v1_weather_proto.Services().ByName("WeatherService")
+	weatherServiceGetCurrentMethodDescriptor  = weatherServiceServiceDescriptor.Methods().ByName("GetCurrent")
+	weatherServiceGetForecastMethodDescriptor = weatherServiceServiceDescriptor.Methods().ByName("GetForecast")
 )
 
 // WeatherServiceClient is a client for the weather.v1.WeatherService service.
 type WeatherServiceClient interface {
-	GetWeather(context.Context, *connect.Request[v1.GetWeatherRequest]) (*connect.Response[v1.GetWeatherResponse], error)
+	GetCurrent(context.Context, *connect.Request[v1.GetCurrentRequest]) (*connect.Response[v1.GetCurrentResponse], error)
+	GetForecast(context.Context, *connect.Request[v1.GetForecastRequest]) (*connect.Response[v1.GetForecastResponse], error)
 }
 
 // NewWeatherServiceClient constructs a client for the weather.v1.WeatherService service. By
@@ -59,10 +64,16 @@ type WeatherServiceClient interface {
 func NewWeatherServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) WeatherServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &weatherServiceClient{
-		getWeather: connect.NewClient[v1.GetWeatherRequest, v1.GetWeatherResponse](
+		getCurrent: connect.NewClient[v1.GetCurrentRequest, v1.GetCurrentResponse](
 			httpClient,
-			baseURL+WeatherServiceGetWeatherProcedure,
-			connect.WithSchema(weatherServiceGetWeatherMethodDescriptor),
+			baseURL+WeatherServiceGetCurrentProcedure,
+			connect.WithSchema(weatherServiceGetCurrentMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+		getForecast: connect.NewClient[v1.GetForecastRequest, v1.GetForecastResponse](
+			httpClient,
+			baseURL+WeatherServiceGetForecastProcedure,
+			connect.WithSchema(weatherServiceGetForecastMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 	}
@@ -70,17 +81,24 @@ func NewWeatherServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 
 // weatherServiceClient implements WeatherServiceClient.
 type weatherServiceClient struct {
-	getWeather *connect.Client[v1.GetWeatherRequest, v1.GetWeatherResponse]
+	getCurrent  *connect.Client[v1.GetCurrentRequest, v1.GetCurrentResponse]
+	getForecast *connect.Client[v1.GetForecastRequest, v1.GetForecastResponse]
 }
 
-// GetWeather calls weather.v1.WeatherService.GetWeather.
-func (c *weatherServiceClient) GetWeather(ctx context.Context, req *connect.Request[v1.GetWeatherRequest]) (*connect.Response[v1.GetWeatherResponse], error) {
-	return c.getWeather.CallUnary(ctx, req)
+// GetCurrent calls weather.v1.WeatherService.GetCurrent.
+func (c *weatherServiceClient) GetCurrent(ctx context.Context, req *connect.Request[v1.GetCurrentRequest]) (*connect.Response[v1.GetCurrentResponse], error) {
+	return c.getCurrent.CallUnary(ctx, req)
+}
+
+// GetForecast calls weather.v1.WeatherService.GetForecast.
+func (c *weatherServiceClient) GetForecast(ctx context.Context, req *connect.Request[v1.GetForecastRequest]) (*connect.Response[v1.GetForecastResponse], error) {
+	return c.getForecast.CallUnary(ctx, req)
 }
 
 // WeatherServiceHandler is an implementation of the weather.v1.WeatherService service.
 type WeatherServiceHandler interface {
-	GetWeather(context.Context, *connect.Request[v1.GetWeatherRequest]) (*connect.Response[v1.GetWeatherResponse], error)
+	GetCurrent(context.Context, *connect.Request[v1.GetCurrentRequest]) (*connect.Response[v1.GetCurrentResponse], error)
+	GetForecast(context.Context, *connect.Request[v1.GetForecastRequest]) (*connect.Response[v1.GetForecastResponse], error)
 }
 
 // NewWeatherServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -89,16 +107,24 @@ type WeatherServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewWeatherServiceHandler(svc WeatherServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	weatherServiceGetWeatherHandler := connect.NewUnaryHandler(
-		WeatherServiceGetWeatherProcedure,
-		svc.GetWeather,
-		connect.WithSchema(weatherServiceGetWeatherMethodDescriptor),
+	weatherServiceGetCurrentHandler := connect.NewUnaryHandler(
+		WeatherServiceGetCurrentProcedure,
+		svc.GetCurrent,
+		connect.WithSchema(weatherServiceGetCurrentMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	weatherServiceGetForecastHandler := connect.NewUnaryHandler(
+		WeatherServiceGetForecastProcedure,
+		svc.GetForecast,
+		connect.WithSchema(weatherServiceGetForecastMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
 	return "/weather.v1.WeatherService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case WeatherServiceGetWeatherProcedure:
-			weatherServiceGetWeatherHandler.ServeHTTP(w, r)
+		case WeatherServiceGetCurrentProcedure:
+			weatherServiceGetCurrentHandler.ServeHTTP(w, r)
+		case WeatherServiceGetForecastProcedure:
+			weatherServiceGetForecastHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -108,6 +134,10 @@ func NewWeatherServiceHandler(svc WeatherServiceHandler, opts ...connect.Handler
 // UnimplementedWeatherServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedWeatherServiceHandler struct{}
 
-func (UnimplementedWeatherServiceHandler) GetWeather(context.Context, *connect.Request[v1.GetWeatherRequest]) (*connect.Response[v1.GetWeatherResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("weather.v1.WeatherService.GetWeather is not implemented"))
+func (UnimplementedWeatherServiceHandler) GetCurrent(context.Context, *connect.Request[v1.GetCurrentRequest]) (*connect.Response[v1.GetCurrentResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("weather.v1.WeatherService.GetCurrent is not implemented"))
+}
+
+func (UnimplementedWeatherServiceHandler) GetForecast(context.Context, *connect.Request[v1.GetForecastRequest]) (*connect.Response[v1.GetForecastResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("weather.v1.WeatherService.GetForecast is not implemented"))
 }

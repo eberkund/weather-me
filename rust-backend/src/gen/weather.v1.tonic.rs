@@ -7,11 +7,19 @@ pub mod weather_service_server {
     #[async_trait]
     pub trait WeatherService: Send + Sync + 'static {
         ///
-        async fn get_weather(
+        async fn get_current(
             &self,
-            request: tonic::Request<super::GetWeatherRequest>,
+            request: tonic::Request<super::GetCurrentRequest>,
         ) -> std::result::Result<
-            tonic::Response<super::GetWeatherResponse>,
+            tonic::Response<super::GetCurrentResponse>,
+            tonic::Status,
+        >;
+        ///
+        async fn get_forecast(
+            &self,
+            request: tonic::Request<super::GetForecastRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::GetForecastResponse>,
             tonic::Status,
         >;
     }
@@ -92,25 +100,25 @@ pub mod weather_service_server {
         }
         fn call(&mut self, req: http::Request<B>) -> Self::Future {
             match req.uri().path() {
-                "/weather.v1.WeatherService/GetWeather" => {
+                "/weather.v1.WeatherService/GetCurrent" => {
                     #[allow(non_camel_case_types)]
-                    struct GetWeatherSvc<T: WeatherService>(pub Arc<T>);
+                    struct GetCurrentSvc<T: WeatherService>(pub Arc<T>);
                     impl<
                         T: WeatherService,
-                    > tonic::server::UnaryService<super::GetWeatherRequest>
-                    for GetWeatherSvc<T> {
-                        type Response = super::GetWeatherResponse;
+                    > tonic::server::UnaryService<super::GetCurrentRequest>
+                    for GetCurrentSvc<T> {
+                        type Response = super::GetCurrentResponse;
                         type Future = BoxFuture<
                             tonic::Response<Self::Response>,
                             tonic::Status,
                         >;
                         fn call(
                             &mut self,
-                            request: tonic::Request<super::GetWeatherRequest>,
+                            request: tonic::Request<super::GetCurrentRequest>,
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as WeatherService>::get_weather(&inner, request).await
+                                <T as WeatherService>::get_current(&inner, request).await
                             };
                             Box::pin(fut)
                         }
@@ -121,7 +129,52 @@ pub mod weather_service_server {
                     let max_encoding_message_size = self.max_encoding_message_size;
                     let inner = self.inner.clone();
                     let fut = async move {
-                        let method = GetWeatherSvc(inner);
+                        let method = GetCurrentSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/weather.v1.WeatherService/GetForecast" => {
+                    #[allow(non_camel_case_types)]
+                    struct GetForecastSvc<T: WeatherService>(pub Arc<T>);
+                    impl<
+                        T: WeatherService,
+                    > tonic::server::UnaryService<super::GetForecastRequest>
+                    for GetForecastSvc<T> {
+                        type Response = super::GetForecastResponse;
+                        type Future = BoxFuture<
+                            tonic::Response<Self::Response>,
+                            tonic::Status,
+                        >;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::GetForecastRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as WeatherService>::get_forecast(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = GetForecastSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
                             .apply_compression_config(

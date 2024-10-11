@@ -2,11 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+#root {
+  @apply h-full;
+}
+
+body {
+  @apply bg-gradient-to-t from-slate-400 to-slate-600 overflow-y-scroll h-dvh bg-fixed;
+}
+
 .divider {
   @apply bg-gradient-to-r from-white to-white/0 h-0.5 w-full;
 }
 
 .card-dark {
-  box-shadow: inset 4px 4px 4px rgba(255, 255, 255, .1);
-  background: radial-gradient(100% 100% at 0% 0%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
+  box-shadow: inset 4px 4px 4px rgba(255, 255, 255, 0.15);
+  background: radial-gradient(
+    100% 100% at 0% 0%,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
 }

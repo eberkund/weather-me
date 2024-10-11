@@ -1,16 +1,23 @@
-//go:generate go-enum --marshal --lower
-
 package providers
 
 import "context"
 
-type ProvidesWeather interface {
-	Current(ctx context.Context, city string) (string, error)
-	Forecast(ctx context.Context, city string) (string, error)
+type CurrentResponse struct {
+	Temperature float64
+	Humidity    int
+	UVIndex     int
+	Visibility  int
 }
 
-// WeatherProvider is the available weather providers.
-// ENUM(
-// WeatherAPI
-// )
-type WeatherProvider string
+type DailyForecast struct {
+	Temperature int
+}
+
+type ForecastResponse struct {
+	Days []DailyForecast
+}
+
+type ProvidesWeather interface {
+	Current(ctx context.Context, lat float64, lng float64) (*CurrentResponse, error)
+	Forecast(ctx context.Context, lat float64, lng float64) (*ForecastResponse, error)
+}

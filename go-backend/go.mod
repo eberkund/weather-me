@@ -1,6 +1,6 @@
 module github.com/eberkund/weather-me
 
-go 1.23.2
+go 1.23.0
 
 require (
 	connectrpc.com/connect v1.17.0
@@ -10,6 +10,7 @@ require (
 	github.com/antihax/optional v1.0.0
 	github.com/eberkund/graceful v0.2.0
 	github.com/go-faster/errors v0.7.1
+	github.com/google/go-querystring v1.1.0
 	github.com/justinas/alice v1.2.0
 	github.com/rs/cors v1.11.1
 	github.com/rs/zerolog v1.33.0
