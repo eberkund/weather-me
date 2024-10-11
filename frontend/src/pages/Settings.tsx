@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Link } from "wouter";
 import { Button } from "~/components/Button";
 import { Card } from "~/components/Card";
@@ -18,20 +18,20 @@ import {
 export function Settings() {
   const {
     register,
-    handleSubmit,
+    // handleSubmit,
     // watch,
-    formState: { errors },
+    // formState: { errors },
   } = useForm<UserSettings>({
     defaultValues: getSettings(),
   });
 
-  const onSubmit: SubmitHandler<UserSettings> = (data) => console.log(data);
+  // const onSubmit: SubmitHandler<UserSettings> = (data) => console.log(data);
 
   function saveData(event: React.FormEvent<HTMLFormElement>) {
     console.log("saving data");
     const formData = new FormData(event.currentTarget);
     const formEntries = Object.fromEntries(formData.entries());
-    saveSettings(formEntries as UserSettings);
+    saveSettings(formEntries as unknown as UserSettings);
   }
 
   return (
