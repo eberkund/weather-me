@@ -75,7 +75,7 @@ type RealtimeWeatherResponse struct {
 		DewPointF     float64 `json:"dewpoint_f"`
 		VisibleKms    int     `json:"vis_km"`
 		VisibleMiles  int     `json:"vis_miles"`
-		UV            int     `json:"uv"`
+		UV            float64 `json:"uv"`
 		GustMph       float64 `json:"gust_mph"`
 		GustKph       float64 `json:"gust_kph"`
 	} `json:"current"`
@@ -106,7 +106,7 @@ func (o *WeatherAPI) Current(ctx context.Context, lat float64, lng float64) (*pr
 	return &providers.CurrentResponse{
 		Temperature: decoded.Current.TempC,
 		Humidity:    decoded.Current.Humidity,
-		UVIndex:     decoded.Current.UV,
+		UVIndex:     int(decoded.Current.UV),
 		Visibility:  decoded.Current.VisibleKms,
 	}, nil
 }
