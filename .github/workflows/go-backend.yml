@@ -1,0 +1,32 @@
+name: go-backend
+
+on: [push]
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: "go.mod"
+
+      - uses: golangci/golangci-lint-action@v6
+        with:
+          version: v1.61
+
+      - uses: bufbuild/buf-action@v1
+        with:
+          lint: true
+          breaking: false
+          push: false
+
+      - name: Unit tests
+        run: |
+          go test ./... -timeout=30s -covermode=count -coverprofile=coverage.txt -coverpkg=./...
