@@ -169,7 +169,7 @@ export function Index() {
                 {current?.uvIndex !== undefined && (
                   <div
                     style={{ left: `${(current.uvIndex / 11) * 100}%` }}
-                    className="h-2 w-2 absolute rounded-full bg-white"
+                    className="h-2 w-2 absolute rounded-full bg-white shadow-sm"
                   />
                 )}
               </div>
