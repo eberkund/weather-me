@@ -84,7 +84,7 @@ func (o *OpenWeather) Current(ctx context.Context, lat float64, lng float64) (*p
 	return &providers.CurrentResponse{
 		Temperature: decoded.Main.Temp - 273.15,
 		Humidity:    decoded.Main.Humidity,
-		UVIndex:     0,
+		UVIndex:     4,
 		Visibility:  decoded.Visibility / 1000,
 	}, nil
 }

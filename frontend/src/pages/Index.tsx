@@ -167,7 +167,7 @@ export function Index() {
               <div className="relative rounded-full h-2 bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 my-3">
                 {current?.uvIndex !== undefined && (
                   <div
-                    style={{ left: `${current.uvIndex / 11}%` }}
+                    style={{ left: `${(current.uvIndex / 11) * 100}%` }}
                     className="h-2 w-2 absolute rounded-full bg-white"
                   />
                 )}
