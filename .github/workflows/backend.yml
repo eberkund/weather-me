@@ -1,4 +1,4 @@
-name: go-backend
+name: backend
 
 on: [push]
 
@@ -12,18 +12,18 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: go-backend
+        working-directory: backend
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-go@v5
         with:
-          go-version-file: go-backend/go.mod
+          go-version-file: backend/go.mod
 
       - uses: golangci/golangci-lint-action@v6
         with:
           version: v1.61
-          working-directory: go-backend
+          working-directory: backend
 
       - uses: bufbuild/buf-action@v1
         with:
