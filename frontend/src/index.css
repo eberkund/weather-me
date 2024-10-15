@@ -2,12 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+
 #root {
   @apply h-full;
 }
 
 body {
-  @apply bg-gradient-to-t from-slate-400 to-slate-600 overflow-y-scroll h-dvh bg-fixed;
+  @apply bg-gradient-to-t from-slate-400 to-slate-600 overflow-y-scroll h-dvh bg-fixed overscroll-none;
 }
 
 .divider {

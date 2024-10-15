@@ -13,10 +13,6 @@ import logo from "~/assets/logo.svg";
 import mapPin from "~/assets/mapPin.svg";
 import { Button } from "~/components/Button";
 import { Card } from "~/components/Card";
-import cloudy from "~/assets/darksky/cloudy.svg";
-import sunny from "~/assets/darksky/clear-day.svg";
-import rainy from "~/assets/darksky/rain.svg";
-import windy from "~/assets/darksky/wind.svg";
 import {
   addPlace,
   Place,
@@ -30,65 +26,51 @@ import "@placekit/autocomplete-js/dist/placekit-autocomplete.css";
 import environment from "~/services/environment";
 import { PKResult } from "@placekit/client-js";
 import { client, providersMap } from "~/services/api";
-import { GetCurrentResponse } from "~/gen/weather/v1/weather_pb";
+import {
+  GetCurrentResponse,
+  GetForecastResponse,
+} from "~/gen/weather/v1/weather_pb";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import objectSupport from "dayjs/plugin/objectSupport";
+import { twMerge } from "tailwind-merge";
+import { conditionIcon } from "~/services/icons";
 
-const days = [
-  {
-    day: "Mon",
-    temperature: 20,
-    weather: rainy,
-  },
-  {
-    day: "Tue",
-    temperature: 22,
-    weather: rainy,
-  },
-  {
-    day: "Wed",
-    temperature: 25,
-    weather: sunny,
-  },
-  {
-    day: "Thu",
-    temperature: 24,
-    weather: sunny,
-  },
-  {
-    day: "Fri",
-    temperature: 26,
-    weather: cloudy,
-  },
-  {
-    day: "Sat",
-    temperature: 27,
-    weather: sunny,
-  },
-  {
-    day: "Sun",
-    temperature: 28,
-    weather: windy,
-  },
-];
+dayjs.extend(utc);
+dayjs.extend(objectSupport);
 
 export function Index() {
   const [places, setPlaces] = useState<Place[]>(getPlaces());
   const [current, setCurrent] = useState<GetCurrentResponse | null>(null);
+  const [forecast, setForecast] = useState<GetForecastResponse | null>(null);
+  const [active, setActive] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (places.length > 0) {
+      if (active >= places.length) {
+        setCurrent(null);
+        return;
+      }
+      (async () => {
         const current = await client.getCurrent({
-          longitude: places[0].lon,
-          latitude: places[0].lat,
+          longitude: places[active].lon,
+          latitude: places[active].lat,
           provider: providersMap.get(getSettings().provider),
         });
-        console.log(current);
         setCurrent(current);
-      }
+      })();
+      (async () => {
+        const forecast = await client.getForecast({
+          longitude: places[active].lon,
+          latitude: places[active].lat,
+          provider: providersMap.get(getSettings().provider),
+        });
+        console.log(forecast);
+        setForecast(forecast);
+      })();
     };
     fetchData();
-  }, [places]);
+  }, [places, active]);
 
   function onRemoveCity(idx: number) {
     places.splice(idx, 1);
@@ -108,13 +90,16 @@ export function Index() {
     setPlaces([...places, place]);
   }
 
+  function selectPlace(index: number) {
+    setActive(index);
+  }
+
   return (
-    <div className="flex">
+    <div className="flex min-h-full">
       <div className="flex-initial min-w-96 bg-white/30 p-8">
         <img src={logo} alt="" />
         <div className="my-5">
           <PlaceKit
-            // className="border-0"
             geolocation={false}
             onPick={onPick}
             apiKey={environment.VITE_PLACEKIT_API_KEY}
@@ -122,7 +107,14 @@ export function Index() {
         </div>
         <div className="flex flex-col gap-y-5">
           {places.map((place, i) => (
-            <Card key={i} className="hover:bg-slate-300 active:ring-2 ">
+            <Card
+              key={i}
+              className={twMerge(
+                "hover:bg-slate-300 active:ring-2",
+                active === i && "ring-2 ring-lime-300"
+              )}
+              onClick={() => selectPlace(i)}
+            >
               <div className="flex items-center gap-x-3">
                 <img src={mapPin} />
                 <div className="flex-grow">
@@ -167,8 +159,8 @@ export function Index() {
               <div className="relative rounded-full h-2 bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 my-3">
                 {current?.uvIndex !== undefined && (
                   <div
-                    style={{ left: `${current.uvIndex / 11}%` }}
-                    className="h-2 w-2 absolute rounded-full bg-white"
+                    style={{ left: `${(current.uvIndex / 11) * 100}%` }}
+                    className="h-2 w-2 absolute rounded-full bg-white shadow-sm"
                   />
                 )}
               </div>
@@ -202,11 +194,18 @@ export function Index() {
               <h2 className="font-light">7-day Forecast</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-7 gap-3">
-              {days.map((day) => (
-                <Card key={day.day} className="text-center">
-                  <h3 className="font-medium mb-1">{day.day}</h3>
+              {forecast?.days.map((day, i) => (
+                <Card key={i} className="text-center">
+                  <h3 className="font-medium mb-1">
+                    {day.date &&
+                      dayjs({
+                        year: day.date.year,
+                        month: day.date.month - 1,
+                        day: day.date.day - 1,
+                      }).format("ddd")}
+                  </h3>
                   <hr className="divider" />
-                  <img src={day.weather} alt="" className="my-2" />
+                  <img src={conditionIcon(day.condition)} alt="" />
                   <p className="text-white text-4xl">{day.temperature}°</p>
                 </Card>
               ))}

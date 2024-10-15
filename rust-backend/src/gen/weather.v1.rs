@@ -48,9 +48,23 @@ const PACKAGE: &'static str = "weather.v1";
 fn full_name() -> ::prost::alloc::string::String { "weather.v1.GetForecastRequest".into() }fn type_url() -> ::prost::alloc::string::String { "/weather.v1.GetForecastRequest".into() }}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct GetForecastResponse {
+pub struct DailyForecast {
     #[prost(float, tag="1")]
     pub temperature: f32,
+    #[prost(message, optional, tag="2")]
+    pub date: ::core::option::Option<super::super::google::r#type::Date>,
+    #[prost(enumeration="Condition", tag="3")]
+    pub condition: i32,
+}
+impl ::prost::Name for DailyForecast {
+const NAME: &'static str = "DailyForecast";
+const PACKAGE: &'static str = "weather.v1";
+fn full_name() -> ::prost::alloc::string::String { "weather.v1.DailyForecast".into() }fn type_url() -> ::prost::alloc::string::String { "/weather.v1.DailyForecast".into() }}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetForecastResponse {
+    #[prost(message, repeated, tag="1")]
+    pub days: ::prost::alloc::vec::Vec<DailyForecast>,
 }
 impl ::prost::Name for GetForecastResponse {
 const NAME: &'static str = "GetForecastResponse";
@@ -81,6 +95,56 @@ impl WeatherProvider {
             "WEATHER_PROVIDER_UNSPECIFIED" => Some(Self::Unspecified),
             "WEATHER_PROVIDER_OPENWEATHER" => Some(Self::Openweather),
             "WEATHER_PROVIDER_WEATHERAPI" => Some(Self::Weatherapi),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum Condition {
+    Unspecified = 0,
+    Clear = 1,
+    Cloudy = 2,
+    PartlyCloudy = 3,
+    Overcast = 4,
+    Mist = 5,
+    Sunny = 6,
+    Rainy = 7,
+    Snowy = 8,
+    Stormy = 9,
+}
+impl Condition {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Condition::Unspecified => "CONDITION_UNSPECIFIED",
+            Condition::Clear => "CONDITION_CLEAR",
+            Condition::Cloudy => "CONDITION_CLOUDY",
+            Condition::PartlyCloudy => "CONDITION_PARTLY_CLOUDY",
+            Condition::Overcast => "CONDITION_OVERCAST",
+            Condition::Mist => "CONDITION_MIST",
+            Condition::Sunny => "CONDITION_SUNNY",
+            Condition::Rainy => "CONDITION_RAINY",
+            Condition::Snowy => "CONDITION_SNOWY",
+            Condition::Stormy => "CONDITION_STORMY",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "CONDITION_UNSPECIFIED" => Some(Self::Unspecified),
+            "CONDITION_CLEAR" => Some(Self::Clear),
+            "CONDITION_CLOUDY" => Some(Self::Cloudy),
+            "CONDITION_PARTLY_CLOUDY" => Some(Self::PartlyCloudy),
+            "CONDITION_OVERCAST" => Some(Self::Overcast),
+            "CONDITION_MIST" => Some(Self::Mist),
+            "CONDITION_SUNNY" => Some(Self::Sunny),
+            "CONDITION_RAINY" => Some(Self::Rainy),
+            "CONDITION_SNOWY" => Some(Self::Snowy),
+            "CONDITION_STORMY" => Some(Self::Stormy),
             _ => None,
         }
     }

@@ -7,10 +7,10 @@ plugins:
     out: rust-backend/src/gen
     opt:
       - enable_type_names
-  
+
   - remote: buf.build/community/neoeinstein-prost-serde:v0.3.1
     out: rust-backend/src/gen
-  
+
   - remote: buf.build/community/neoeinstein-tonic:v0.4.1
     out: rust-backend/src/gen
     opt:
@@ -28,13 +28,15 @@ plugins:
 
   - remote: buf.build/protocolbuffers/go:v1.34.2
     out: go-backend/gen
+    include_imports: true
     opt: paths=source_relative
 
   # Frontend
-  - remote: buf.build/connectrpc/es:v1.5.0
+  - remote: buf.build/connectrpc/es:v1.6.0
     out: frontend/src/gen
     opt: target=ts
 
   - remote: buf.build/bufbuild/es:v1.10.0
     out: frontend/src/gen
+    include_imports: true
     opt: target=ts

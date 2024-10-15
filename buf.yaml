@@ -12,3 +12,4 @@ breaking:
     - FILE
 deps:
   - buf.build/bufbuild/protovalidate
+  - buf.build/googleapis/googleapis

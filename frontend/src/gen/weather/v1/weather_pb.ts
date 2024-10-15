@@ -5,6 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
+import { Date } from "../../google/type/date_pb.js";
 
 /**
  * @generated from enum weather.v1.WeatherProvider
@@ -30,6 +31,74 @@ proto3.util.setEnumType(WeatherProvider, "weather.v1.WeatherProvider", [
   { no: 0, name: "WEATHER_PROVIDER_UNSPECIFIED" },
   { no: 1, name: "WEATHER_PROVIDER_OPENWEATHER" },
   { no: 2, name: "WEATHER_PROVIDER_WEATHERAPI" },
+]);
+
+/**
+ * @generated from enum weather.v1.Condition
+ */
+export enum Condition {
+  /**
+   * @generated from enum value: CONDITION_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: CONDITION_CLEAR = 1;
+   */
+  CLEAR = 1,
+
+  /**
+   * @generated from enum value: CONDITION_CLOUDY = 2;
+   */
+  CLOUDY = 2,
+
+  /**
+   * @generated from enum value: CONDITION_PARTLY_CLOUDY = 3;
+   */
+  PARTLY_CLOUDY = 3,
+
+  /**
+   * @generated from enum value: CONDITION_OVERCAST = 4;
+   */
+  OVERCAST = 4,
+
+  /**
+   * @generated from enum value: CONDITION_MIST = 5;
+   */
+  MIST = 5,
+
+  /**
+   * @generated from enum value: CONDITION_SUNNY = 6;
+   */
+  SUNNY = 6,
+
+  /**
+   * @generated from enum value: CONDITION_RAINY = 7;
+   */
+  RAINY = 7,
+
+  /**
+   * @generated from enum value: CONDITION_SNOWY = 8;
+   */
+  SNOWY = 8,
+
+  /**
+   * @generated from enum value: CONDITION_STORMY = 9;
+   */
+  STORMY = 9,
+}
+// Retrieve enum metadata with: proto3.getEnumType(Condition)
+proto3.util.setEnumType(Condition, "weather.v1.Condition", [
+  { no: 0, name: "CONDITION_UNSPECIFIED" },
+  { no: 1, name: "CONDITION_CLEAR" },
+  { no: 2, name: "CONDITION_CLOUDY" },
+  { no: 3, name: "CONDITION_PARTLY_CLOUDY" },
+  { no: 4, name: "CONDITION_OVERCAST" },
+  { no: 5, name: "CONDITION_MIST" },
+  { no: 6, name: "CONDITION_SUNNY" },
+  { no: 7, name: "CONDITION_RAINY" },
+  { no: 8, name: "CONDITION_SNOWY" },
+  { no: 9, name: "CONDITION_STORMY" },
 ]);
 
 /**
@@ -192,13 +261,62 @@ export class GetForecastRequest extends Message<GetForecastRequest> {
 }
 
 /**
- * @generated from message weather.v1.GetForecastResponse
+ * @generated from message weather.v1.DailyForecast
  */
-export class GetForecastResponse extends Message<GetForecastResponse> {
+export class DailyForecast extends Message<DailyForecast> {
   /**
    * @generated from field: float temperature = 1;
    */
   temperature = 0;
+
+  /**
+   * @generated from field: google.type.Date date = 2;
+   */
+  date?: Date;
+
+  /**
+   * @generated from field: weather.v1.Condition condition = 3;
+   */
+  condition = Condition.UNSPECIFIED;
+
+  constructor(data?: PartialMessage<DailyForecast>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "weather.v1.DailyForecast";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "temperature", kind: "scalar", T: 2 /* ScalarType.FLOAT */ },
+    { no: 2, name: "date", kind: "message", T: Date },
+    { no: 3, name: "condition", kind: "enum", T: proto3.getEnumType(Condition) },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DailyForecast {
+    return new DailyForecast().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DailyForecast {
+    return new DailyForecast().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DailyForecast {
+    return new DailyForecast().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DailyForecast | PlainMessage<DailyForecast> | undefined, b: DailyForecast | PlainMessage<DailyForecast> | undefined): boolean {
+    return proto3.util.equals(DailyForecast, a, b);
+  }
+}
+
+/**
+ * @generated from message weather.v1.GetForecastResponse
+ */
+export class GetForecastResponse extends Message<GetForecastResponse> {
+  /**
+   * @generated from field: repeated weather.v1.DailyForecast days = 1;
+   */
+  days: DailyForecast[] = [];
 
   constructor(data?: PartialMessage<GetForecastResponse>) {
     super();
@@ -208,7 +326,7 @@ export class GetForecastResponse extends Message<GetForecastResponse> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "weather.v1.GetForecastResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "temperature", kind: "scalar", T: 2 /* ScalarType.FLOAT */ },
+    { no: 1, name: "days", kind: "message", T: DailyForecast, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetForecastResponse {

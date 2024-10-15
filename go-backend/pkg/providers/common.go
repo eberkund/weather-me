@@ -1,6 +1,10 @@
 package providers
 
-import "context"
+import (
+	"context"
+	weatherv1 "github.com/eberkund/weather-me/gen/weather/v1"
+	"time"
+)
 
 type CurrentResponse struct {
 	Temperature float64
@@ -11,6 +15,8 @@ type CurrentResponse struct {
 
 type DailyForecast struct {
 	Temperature int
+	Date        time.Time
+	Condition   weatherv1.Condition
 }
 
 type ForecastResponse struct {

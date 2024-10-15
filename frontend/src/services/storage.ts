@@ -83,7 +83,6 @@ export function addPlace(place: Place) {
 
 export function removeCity(idx: number) {
   const places = getPlaces();
-  console.log("before", places);
   places.splice(idx, 1);
   localStorage.setItem("places", JSON.stringify(places));
 }
