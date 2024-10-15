@@ -117,6 +117,10 @@ func normalizeCondition(condition string) weatherv1.Condition {
 		return weatherv1.Condition_CLEAR
 	case "Mist":
 		return weatherv1.Condition_MIST
+	case "Moderate rain":
+		fallthrough
+	case "Heavy rain":
+		fallthrough
 	case "Rainy":
 		fallthrough
 	case "Patchy rain nearby":
