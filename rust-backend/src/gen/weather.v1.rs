@@ -121,30 +121,30 @@ impl Condition {
     pub fn as_str_name(&self) -> &'static str {
         match self {
             Condition::Unspecified => "CONDITION_UNSPECIFIED",
-            Condition::Clear => "CLEAR",
-            Condition::Cloudy => "CLOUDY",
-            Condition::PartlyCloudy => "PARTLY_CLOUDY",
-            Condition::Overcast => "OVERCAST",
-            Condition::Mist => "MIST",
-            Condition::Sunny => "SUNNY",
-            Condition::Rainy => "RAINY",
-            Condition::Snowy => "SNOWY",
-            Condition::Stormy => "STORMY",
+            Condition::Clear => "CONDITION_CLEAR",
+            Condition::Cloudy => "CONDITION_CLOUDY",
+            Condition::PartlyCloudy => "CONDITION_PARTLY_CLOUDY",
+            Condition::Overcast => "CONDITION_OVERCAST",
+            Condition::Mist => "CONDITION_MIST",
+            Condition::Sunny => "CONDITION_SUNNY",
+            Condition::Rainy => "CONDITION_RAINY",
+            Condition::Snowy => "CONDITION_SNOWY",
+            Condition::Stormy => "CONDITION_STORMY",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
             "CONDITION_UNSPECIFIED" => Some(Self::Unspecified),
-            "CLEAR" => Some(Self::Clear),
-            "CLOUDY" => Some(Self::Cloudy),
-            "PARTLY_CLOUDY" => Some(Self::PartlyCloudy),
-            "OVERCAST" => Some(Self::Overcast),
-            "MIST" => Some(Self::Mist),
-            "SUNNY" => Some(Self::Sunny),
-            "RAINY" => Some(Self::Rainy),
-            "SNOWY" => Some(Self::Snowy),
-            "STORMY" => Some(Self::Stormy),
+            "CONDITION_CLEAR" => Some(Self::Clear),
+            "CONDITION_CLOUDY" => Some(Self::Cloudy),
+            "CONDITION_PARTLY_CLOUDY" => Some(Self::PartlyCloudy),
+            "CONDITION_OVERCAST" => Some(Self::Overcast),
+            "CONDITION_MIST" => Some(Self::Mist),
+            "CONDITION_SUNNY" => Some(Self::Sunny),
+            "CONDITION_RAINY" => Some(Self::Rainy),
+            "CONDITION_SNOWY" => Some(Self::Snowy),
+            "CONDITION_STORMY" => Some(Self::Stormy),
             _ => None,
         }
     }

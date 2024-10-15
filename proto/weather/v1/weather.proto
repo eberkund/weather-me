@@ -34,15 +34,15 @@ message GetForecastRequest {
 
 enum Condition {
   CONDITION_UNSPECIFIED = 0;
-  CLEAR = 1;
-  CLOUDY = 2;
-  PARTLY_CLOUDY = 3;
-  OVERCAST = 4;
-  MIST = 5;
-  SUNNY = 6;
-  RAINY = 7;
-  SNOWY = 8;
-  STORMY = 9;
+  CONDITION_CLEAR = 1;
+  CONDITION_CLOUDY = 2;
+  CONDITION_PARTLY_CLOUDY = 3;
+  CONDITION_OVERCAST = 4;
+  CONDITION_MIST = 5;
+  CONDITION_SUNNY = 6;
+  CONDITION_RAINY = 7;
+  CONDITION_SNOWY = 8;
+  CONDITION_STORMY = 9;
 }
 
 message DailyForecast {

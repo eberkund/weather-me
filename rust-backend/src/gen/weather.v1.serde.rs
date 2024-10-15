@@ -7,15 +7,15 @@ impl serde::Serialize for Condition {
     {
         let variant = match self {
             Self::Unspecified => "CONDITION_UNSPECIFIED",
-            Self::Clear => "CLEAR",
-            Self::Cloudy => "CLOUDY",
-            Self::PartlyCloudy => "PARTLY_CLOUDY",
-            Self::Overcast => "OVERCAST",
-            Self::Mist => "MIST",
-            Self::Sunny => "SUNNY",
-            Self::Rainy => "RAINY",
-            Self::Snowy => "SNOWY",
-            Self::Stormy => "STORMY",
+            Self::Clear => "CONDITION_CLEAR",
+            Self::Cloudy => "CONDITION_CLOUDY",
+            Self::PartlyCloudy => "CONDITION_PARTLY_CLOUDY",
+            Self::Overcast => "CONDITION_OVERCAST",
+            Self::Mist => "CONDITION_MIST",
+            Self::Sunny => "CONDITION_SUNNY",
+            Self::Rainy => "CONDITION_RAINY",
+            Self::Snowy => "CONDITION_SNOWY",
+            Self::Stormy => "CONDITION_STORMY",
         };
         serializer.serialize_str(variant)
     }
@@ -28,15 +28,15 @@ impl<'de> serde::Deserialize<'de> for Condition {
     {
         const FIELDS: &[&str] = &[
             "CONDITION_UNSPECIFIED",
-            "CLEAR",
-            "CLOUDY",
-            "PARTLY_CLOUDY",
-            "OVERCAST",
-            "MIST",
-            "SUNNY",
-            "RAINY",
-            "SNOWY",
-            "STORMY",
+            "CONDITION_CLEAR",
+            "CONDITION_CLOUDY",
+            "CONDITION_PARTLY_CLOUDY",
+            "CONDITION_OVERCAST",
+            "CONDITION_MIST",
+            "CONDITION_SUNNY",
+            "CONDITION_RAINY",
+            "CONDITION_SNOWY",
+            "CONDITION_STORMY",
         ];
 
         struct GeneratedVisitor;
@@ -78,15 +78,15 @@ impl<'de> serde::Deserialize<'de> for Condition {
             {
                 match value {
                     "CONDITION_UNSPECIFIED" => Ok(Condition::Unspecified),
-                    "CLEAR" => Ok(Condition::Clear),
-                    "CLOUDY" => Ok(Condition::Cloudy),
-                    "PARTLY_CLOUDY" => Ok(Condition::PartlyCloudy),
-                    "OVERCAST" => Ok(Condition::Overcast),
-                    "MIST" => Ok(Condition::Mist),
-                    "SUNNY" => Ok(Condition::Sunny),
-                    "RAINY" => Ok(Condition::Rainy),
-                    "SNOWY" => Ok(Condition::Snowy),
-                    "STORMY" => Ok(Condition::Stormy),
+                    "CONDITION_CLEAR" => Ok(Condition::Clear),
+                    "CONDITION_CLOUDY" => Ok(Condition::Cloudy),
+                    "CONDITION_PARTLY_CLOUDY" => Ok(Condition::PartlyCloudy),
+                    "CONDITION_OVERCAST" => Ok(Condition::Overcast),
+                    "CONDITION_MIST" => Ok(Condition::Mist),
+                    "CONDITION_SUNNY" => Ok(Condition::Sunny),
+                    "CONDITION_RAINY" => Ok(Condition::Rainy),
+                    "CONDITION_SNOWY" => Ok(Condition::Snowy),
+                    "CONDITION_STORMY" => Ok(Condition::Stormy),
                     _ => Err(serde::de::Error::unknown_variant(value, FIELDS)),
                 }
             }

@@ -40,65 +40,65 @@ export enum Condition {
   /**
    * @generated from enum value: CONDITION_UNSPECIFIED = 0;
    */
-  CONDITION_UNSPECIFIED = 0,
+  UNSPECIFIED = 0,
 
   /**
-   * @generated from enum value: CLEAR = 1;
+   * @generated from enum value: CONDITION_CLEAR = 1;
    */
   CLEAR = 1,
 
   /**
-   * @generated from enum value: CLOUDY = 2;
+   * @generated from enum value: CONDITION_CLOUDY = 2;
    */
   CLOUDY = 2,
 
   /**
-   * @generated from enum value: PARTLY_CLOUDY = 3;
+   * @generated from enum value: CONDITION_PARTLY_CLOUDY = 3;
    */
   PARTLY_CLOUDY = 3,
 
   /**
-   * @generated from enum value: OVERCAST = 4;
+   * @generated from enum value: CONDITION_OVERCAST = 4;
    */
   OVERCAST = 4,
 
   /**
-   * @generated from enum value: MIST = 5;
+   * @generated from enum value: CONDITION_MIST = 5;
    */
   MIST = 5,
 
   /**
-   * @generated from enum value: SUNNY = 6;
+   * @generated from enum value: CONDITION_SUNNY = 6;
    */
   SUNNY = 6,
 
   /**
-   * @generated from enum value: RAINY = 7;
+   * @generated from enum value: CONDITION_RAINY = 7;
    */
   RAINY = 7,
 
   /**
-   * @generated from enum value: SNOWY = 8;
+   * @generated from enum value: CONDITION_SNOWY = 8;
    */
   SNOWY = 8,
 
   /**
-   * @generated from enum value: STORMY = 9;
+   * @generated from enum value: CONDITION_STORMY = 9;
    */
   STORMY = 9,
 }
 // Retrieve enum metadata with: proto3.getEnumType(Condition)
 proto3.util.setEnumType(Condition, "weather.v1.Condition", [
   { no: 0, name: "CONDITION_UNSPECIFIED" },
-  { no: 1, name: "CLEAR" },
-  { no: 2, name: "CLOUDY" },
-  { no: 3, name: "PARTLY_CLOUDY" },
-  { no: 4, name: "OVERCAST" },
-  { no: 5, name: "MIST" },
-  { no: 6, name: "SUNNY" },
-  { no: 7, name: "RAINY" },
-  { no: 8, name: "SNOWY" },
-  { no: 9, name: "STORMY" },
+  { no: 1, name: "CONDITION_CLEAR" },
+  { no: 2, name: "CONDITION_CLOUDY" },
+  { no: 3, name: "CONDITION_PARTLY_CLOUDY" },
+  { no: 4, name: "CONDITION_OVERCAST" },
+  { no: 5, name: "CONDITION_MIST" },
+  { no: 6, name: "CONDITION_SUNNY" },
+  { no: 7, name: "CONDITION_RAINY" },
+  { no: 8, name: "CONDITION_SNOWY" },
+  { no: 9, name: "CONDITION_STORMY" },
 ]);
 
 /**
@@ -277,7 +277,7 @@ export class DailyForecast extends Message<DailyForecast> {
   /**
    * @generated from field: weather.v1.Condition condition = 3;
    */
-  condition = Condition.CONDITION_UNSPECIFIED;
+  condition = Condition.UNSPECIFIED;
 
   constructor(data?: PartialMessage<DailyForecast>) {
     super();

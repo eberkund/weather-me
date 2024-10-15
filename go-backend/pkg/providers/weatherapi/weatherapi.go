@@ -106,17 +106,17 @@ func (o *WeatherAPI) Forecast(ctx context.Context, lat float64, lng float64) (*p
 func normalizeCondition(condition string) weatherv1.Condition {
 	switch strings.TrimSpace(condition) {
 	case "Overcast":
-		return weatherv1.Condition_OVERCAST
+		return weatherv1.Condition_CONDITION_OVERCAST
 	case "Cloudy":
-		return weatherv1.Condition_CLOUDY
+		return weatherv1.Condition_CONDITION_CLOUDY
 	case "Partly Cloudy":
-		return weatherv1.Condition_PARTLY_CLOUDY
+		return weatherv1.Condition_CONDITION_PARTLY_CLOUDY
 	case "Sunny":
-		return weatherv1.Condition_SUNNY
+		return weatherv1.Condition_CONDITION_SUNNY
 	case "Clear":
-		return weatherv1.Condition_CLEAR
+		return weatherv1.Condition_CONDITION_CLEAR
 	case "Mist":
-		return weatherv1.Condition_MIST
+		return weatherv1.Condition_CONDITION_MIST
 	case "Moderate rain":
 		fallthrough
 	case "Heavy rain":
@@ -124,7 +124,7 @@ func normalizeCondition(condition string) weatherv1.Condition {
 	case "Rainy":
 		fallthrough
 	case "Patchy rain nearby":
-		return weatherv1.Condition_RAINY
+		return weatherv1.Condition_CONDITION_RAINY
 	default:
 		return weatherv1.Condition_CONDITION_UNSPECIFIED
 	}

@@ -28,7 +28,7 @@ export function conditionIcon(conditon: Condition) {
         return snow;
       case Condition.STORMY:
         return thunderstorm;
-      case Condition.CONDITION_UNSPECIFIED:
+      case Condition.UNSPECIFIED:
       default:
         return question;
     }
