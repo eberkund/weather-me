@@ -6,29 +6,30 @@ import partlyCloudyDay from "~/assets/darksky/partly-cloudy-day.svg";
 import snow from "~/assets/darksky/snow.svg";
 import fog from "~/assets/darksky/fog.svg";
 import thunderstorm from "~/assets/darksky/thunderstorm.svg";
-
+import question from "~/assets/question.svg";
 
 export function conditionIcon(conditon: Condition) {
     switch (conditon) {
-        case Condition.CONDITION_UNSPECIFIED:
-            return null;
-        case Condition.CLEAR:
-            return clearDay;
-        case Condition.CLOUDY:
-            return cloudy;
-        case Condition.PARTLY_CLOUDY:
-            return partlyCloudyDay;
-        case Condition.OVERCAST:
-            return partlyCloudyDay;
-        case Condition.MIST:
-            return fog;
-        case Condition.SUNNY:
-            return clearDay;
-        case Condition.RAINY:
-            return rain;
-        case Condition.SNOWY:
-            return snow;
-        case Condition.STORMY:
-            return thunderstorm;
+      case Condition.CLEAR:
+        return clearDay;
+      case Condition.CLOUDY:
+        return cloudy;
+      case Condition.PARTLY_CLOUDY:
+        return partlyCloudyDay;
+      case Condition.OVERCAST:
+        return partlyCloudyDay;
+      case Condition.MIST:
+        return fog;
+      case Condition.SUNNY:
+        return clearDay;
+      case Condition.RAINY:
+        return rain;
+      case Condition.SNOWY:
+        return snow;
+      case Condition.STORMY:
+        return thunderstorm;
+      case Condition.CONDITION_UNSPECIFIED:
+      default:
+        return question;
     }
 }

@@ -205,7 +205,6 @@ export function Index() {
                       }).format("ddd")}
                   </h3>
                   <hr className="divider" />
-
                   <img src={conditionIcon(day.condition)} alt="" />
                   <p className="text-white text-4xl">{day.temperature}°</p>
                 </Card>
