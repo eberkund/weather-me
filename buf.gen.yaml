@@ -1,9 +1,6 @@
 version: v2
 managed:
   enabled: true
-  override:
-    - file_option: go_package
-      value: buf.build/googleapis/googleapis
 plugins:
   # Rust
   - remote: buf.build/community/neoeinstein-prost:v0.4.0
@@ -31,12 +28,12 @@ plugins:
 
   - remote: buf.build/protocolbuffers/go:v1.34.2
     out: go-backend/gen
+    include_imports: true
     opt: paths=source_relative
 
   # Frontend
   - remote: buf.build/connectrpc/es:v1.6.0
     out: frontend/src/gen
-    include_imports: true
     opt: target=ts
 
   - remote: buf.build/bufbuild/es:v1.10.0

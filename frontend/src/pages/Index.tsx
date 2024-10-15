@@ -41,43 +41,6 @@ import { twMerge } from "tailwind-merge";
 
 dayjs.extend(utc);
 dayjs.extend(objectSupport);
-const days = [
-  {
-    day: "Mon",
-    temperature: 20,
-    weather: rainy,
-  },
-  {
-    day: "Tue",
-    temperature: 22,
-    weather: rainy,
-  },
-  {
-    day: "Wed",
-    temperature: 25,
-    weather: sunny,
-  },
-  {
-    day: "Thu",
-    temperature: 24,
-    weather: sunny,
-  },
-  {
-    day: "Fri",
-    temperature: 26,
-    weather: cloudy,
-  },
-  {
-    day: "Sat",
-    temperature: 27,
-    weather: sunny,
-  },
-  {
-    day: "Sun",
-    temperature: 28,
-    weather: windy,
-  },
-];
 
 export function Index() {
   const [places, setPlaces] = useState<Place[]>(getPlaces());
