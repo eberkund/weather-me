@@ -4,6 +4,8 @@ package weather.v1;
 
 option go_package = "github.com/eberkund/weather-me/gen/weather/v1;weatherv1";
 
+import "google/type/date.proto";
+
 message GetCurrentRequest {
   float latitude = 1;
   float longitude = 2;
@@ -30,8 +32,14 @@ message GetForecastRequest {
   WeatherProvider provider = 3;
 }
 
+message DailyForecast {
+    float temperature = 1;
+    google.type.Date date = 2;
+    string condition = 3;
+}
+
 message GetForecastResponse {
-  float temperature = 1;
+  repeated DailyForecast days = 1;
 }
 
 service WeatherService {

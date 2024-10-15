@@ -1,6 +1,9 @@
 package providers
 
-import "context"
+import (
+	"context"
+	"time"
+)
 
 type CurrentResponse struct {
 	Temperature float64
@@ -11,6 +14,8 @@ type CurrentResponse struct {
 
 type DailyForecast struct {
 	Temperature int
+	Date        time.Time
+	Condition   string
 }
 
 type ForecastResponse struct {

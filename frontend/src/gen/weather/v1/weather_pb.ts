@@ -5,6 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
+import { Date } from "../../google/type/date_pb.js";
 
 /**
  * @generated from enum weather.v1.WeatherProvider
@@ -192,13 +193,62 @@ export class GetForecastRequest extends Message<GetForecastRequest> {
 }
 
 /**
- * @generated from message weather.v1.GetForecastResponse
+ * @generated from message weather.v1.DailyForecast
  */
-export class GetForecastResponse extends Message<GetForecastResponse> {
+export class DailyForecast extends Message<DailyForecast> {
   /**
    * @generated from field: float temperature = 1;
    */
   temperature = 0;
+
+  /**
+   * @generated from field: google.type.Date date = 2;
+   */
+  date?: Date;
+
+  /**
+   * @generated from field: string condition = 3;
+   */
+  condition = "";
+
+  constructor(data?: PartialMessage<DailyForecast>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "weather.v1.DailyForecast";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "temperature", kind: "scalar", T: 2 /* ScalarType.FLOAT */ },
+    { no: 2, name: "date", kind: "message", T: Date },
+    { no: 3, name: "condition", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DailyForecast {
+    return new DailyForecast().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): DailyForecast {
+    return new DailyForecast().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): DailyForecast {
+    return new DailyForecast().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: DailyForecast | PlainMessage<DailyForecast> | undefined, b: DailyForecast | PlainMessage<DailyForecast> | undefined): boolean {
+    return proto3.util.equals(DailyForecast, a, b);
+  }
+}
+
+/**
+ * @generated from message weather.v1.GetForecastResponse
+ */
+export class GetForecastResponse extends Message<GetForecastResponse> {
+  /**
+   * @generated from field: repeated weather.v1.DailyForecast days = 1;
+   */
+  days: DailyForecast[] = [];
 
   constructor(data?: PartialMessage<GetForecastResponse>) {
     super();
@@ -208,7 +258,7 @@ export class GetForecastResponse extends Message<GetForecastResponse> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "weather.v1.GetForecastResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "temperature", kind: "scalar", T: 2 /* ScalarType.FLOAT */ },
+    { no: 1, name: "days", kind: "message", T: DailyForecast, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetForecastResponse {

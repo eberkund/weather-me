@@ -7,8 +7,9 @@ import (
 	"fmt"
 	"github.com/eberkund/weather-me/pkg/providers"
 	"github.com/eberkund/weather-me/swagger"
-	"github.com/go-faster/errors"
 	"github.com/rs/zerolog/log"
+	"github.com/samber/lo"
+	"time"
 )
 
 func NewWeatherAPI(secret string) *WeatherAPI {
@@ -31,54 +32,6 @@ func (o *WeatherAPI) authContext(ctx context.Context) context.Context {
 	return context.WithValue(ctx, swagger.ContextAPIKey, swagger.APIKey{
 		Key: o.secret,
 	})
-}
-
-type RealtimeWeatherResponse struct {
-	Location struct {
-		Name           string  `json:"name"`
-		Region         string  `json:"region"`
-		Country        string  `json:"country"`
-		Latitude       float64 `json:"lat"`
-		Longitude      float64 `json:"lon"`
-		TzID           string  `json:"tz_id"`
-		LocalTimeEpoch int     `json:"localtime_epoch"`
-		LocalTime      string  `json:"localtime"`
-	} `json:"location"`
-	Current struct {
-		LastUpdatedEpoch int     `json:"last_updated_epoch"`
-		LastUpdated      string  `json:"last_updated"`
-		TempC            float64 `json:"temp_c"`
-		TempF            float64 `json:"temp_f"`
-		IsDay            int     `json:"is_day"`
-		Condition        struct {
-			Text string `json:"text"`
-			Icon string `json:"icon"`
-			Code int    `json:"code"`
-		} `json:"condition"`
-		WindMph       float64 `json:"wind_mph"`
-		WindKph       float64 `json:"wind_kph"`
-		WindDegree    float64 `json:"wind_degree"`
-		WindDirection string  `json:"wind_dir"`
-		PressureMb    float64 `json:"pressure_mb"`
-		PressureIn    float64 `json:"pressure_in"`
-		PrecipMm      float64 `json:"precip_mm"`
-		PrecipIn      float64 `json:"precip_in"`
-		Humidity      float64 `json:"humidity"`
-		Cloud         float64 `json:"cloud"`
-		FeelslikeC    float64 `json:"feelslike_c"`
-		FeelslikeF    float64 `json:"feelslike_f"`
-		WindchillC    float64 `json:"windchill_c"`
-		WindchillF    float64 `json:"windchill_f"`
-		HeatIndexC    float64 `json:"heatindex_c"`
-		HeatIndexF    float64 `json:"heatindex_f"`
-		DewPointC     float64 `json:"dewpoint_c"`
-		DewPointF     float64 `json:"dewpoint_f"`
-		VisibleKms    float64 `json:"vis_km"`
-		VisibleMiles  float64 `json:"vis_miles"`
-		UV            float64 `json:"uv"`
-		GustMph       float64 `json:"gust_mph"`
-		GustKph       float64 `json:"gust_kph"`
-	} `json:"current"`
 }
 
 func (o *WeatherAPI) Current(ctx context.Context, lat float64, lng float64) (*providers.CurrentResponse, error) {
@@ -115,15 +68,35 @@ func (o *WeatherAPI) Forecast(ctx context.Context, lat float64, lng float64) (*p
 	response, _, err := o.client.APIsApi.ForecastWeather(
 		o.authContext(ctx),
 		fmt.Sprintf("%f,%f", lat, lng),
-		4,
+		7,
 		nil,
 	)
 	if err != nil {
 		return nil, err
 	}
-	_, ok := response.(map[string]any)
-	if !ok {
-		return nil, errors.New("could not parse response")
+	log.Info().Msg("forecast requested")
+	buf := new(bytes.Buffer)
+	decoded := new(ForecastResponse)
+	err = json.NewEncoder(buf).Encode(response)
+	if err != nil {
+		return nil, err
 	}
-	return &providers.ForecastResponse{}, nil
+	err = json.NewDecoder(buf).Decode(decoded)
+	if err != nil {
+		return nil, err
+	}
+	days := lo.Map(decoded.Forecast.ForecastDay, func(day ForecastDay, i int) providers.DailyForecast {
+		date, err := time.Parse("2006-01-02", day.Date)
+		if err != nil {
+			log.Error().Err(err).Msg("failed to parse date")
+		}
+		return providers.DailyForecast{
+			Temperature: int(day.Day.AvgTempC),
+			Date:        date,
+			Condition:   day.Day.Condition.Text,
+		}
+	})
+	return &providers.ForecastResponse{
+		Days: days,
+	}, nil
 }

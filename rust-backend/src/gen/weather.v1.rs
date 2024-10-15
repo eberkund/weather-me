@@ -47,10 +47,24 @@ const NAME: &'static str = "GetForecastRequest";
 const PACKAGE: &'static str = "weather.v1";
 fn full_name() -> ::prost::alloc::string::String { "weather.v1.GetForecastRequest".into() }fn type_url() -> ::prost::alloc::string::String { "/weather.v1.GetForecastRequest".into() }}
 #[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct GetForecastResponse {
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DailyForecast {
     #[prost(float, tag="1")]
     pub temperature: f32,
+    #[prost(message, optional, tag="2")]
+    pub date: ::core::option::Option<super::super::google::r#type::Date>,
+    #[prost(string, tag="3")]
+    pub condition: ::prost::alloc::string::String,
+}
+impl ::prost::Name for DailyForecast {
+const NAME: &'static str = "DailyForecast";
+const PACKAGE: &'static str = "weather.v1";
+fn full_name() -> ::prost::alloc::string::String { "weather.v1.DailyForecast".into() }fn type_url() -> ::prost::alloc::string::String { "/weather.v1.DailyForecast".into() }}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetForecastResponse {
+    #[prost(message, repeated, tag="1")]
+    pub days: ::prost::alloc::vec::Vec<DailyForecast>,
 }
 impl ::prost::Name for GetForecastResponse {
 const NAME: &'static str = "GetForecastResponse";
