@@ -1,4 +1,99 @@
 // @generated
+impl serde::Serialize for Condition {
+    #[allow(deprecated)]
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let variant = match self {
+            Self::Unspecified => "CONDITION_UNSPECIFIED",
+            Self::Clear => "CLEAR",
+            Self::Cloudy => "CLOUDY",
+            Self::PartlyCloudy => "PARTLY_CLOUDY",
+            Self::Overcast => "OVERCAST",
+            Self::Mist => "MIST",
+            Self::Sunny => "SUNNY",
+            Self::Rainy => "RAINY",
+            Self::Snowy => "SNOWY",
+            Self::Stormy => "STORMY",
+        };
+        serializer.serialize_str(variant)
+    }
+}
+impl<'de> serde::Deserialize<'de> for Condition {
+    #[allow(deprecated)]
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        const FIELDS: &[&str] = &[
+            "CONDITION_UNSPECIFIED",
+            "CLEAR",
+            "CLOUDY",
+            "PARTLY_CLOUDY",
+            "OVERCAST",
+            "MIST",
+            "SUNNY",
+            "RAINY",
+            "SNOWY",
+            "STORMY",
+        ];
+
+        struct GeneratedVisitor;
+
+        impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+            type Value = Condition;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                write!(formatter, "expected one of: {:?}", &FIELDS)
+            }
+
+            fn visit_i64<E>(self, v: i64) -> std::result::Result<Self::Value, E>
+            where
+                E: serde::de::Error,
+            {
+                i32::try_from(v)
+                    .ok()
+                    .and_then(|x| x.try_into().ok())
+                    .ok_or_else(|| {
+                        serde::de::Error::invalid_value(serde::de::Unexpected::Signed(v), &self)
+                    })
+            }
+
+            fn visit_u64<E>(self, v: u64) -> std::result::Result<Self::Value, E>
+            where
+                E: serde::de::Error,
+            {
+                i32::try_from(v)
+                    .ok()
+                    .and_then(|x| x.try_into().ok())
+                    .ok_or_else(|| {
+                        serde::de::Error::invalid_value(serde::de::Unexpected::Unsigned(v), &self)
+                    })
+            }
+
+            fn visit_str<E>(self, value: &str) -> std::result::Result<Self::Value, E>
+            where
+                E: serde::de::Error,
+            {
+                match value {
+                    "CONDITION_UNSPECIFIED" => Ok(Condition::Unspecified),
+                    "CLEAR" => Ok(Condition::Clear),
+                    "CLOUDY" => Ok(Condition::Cloudy),
+                    "PARTLY_CLOUDY" => Ok(Condition::PartlyCloudy),
+                    "OVERCAST" => Ok(Condition::Overcast),
+                    "MIST" => Ok(Condition::Mist),
+                    "SUNNY" => Ok(Condition::Sunny),
+                    "RAINY" => Ok(Condition::Rainy),
+                    "SNOWY" => Ok(Condition::Snowy),
+                    "STORMY" => Ok(Condition::Stormy),
+                    _ => Err(serde::de::Error::unknown_variant(value, FIELDS)),
+                }
+            }
+        }
+        deserializer.deserialize_any(GeneratedVisitor)
+    }
+}
 impl serde::Serialize for DailyForecast {
     #[allow(deprecated)]
     fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
@@ -13,7 +108,7 @@ impl serde::Serialize for DailyForecast {
         if self.date.is_some() {
             len += 1;
         }
-        if !self.condition.is_empty() {
+        if self.condition != 0 {
             len += 1;
         }
         let mut struct_ser = serializer.serialize_struct("weather.v1.DailyForecast", len)?;
@@ -23,8 +118,10 @@ impl serde::Serialize for DailyForecast {
         if let Some(v) = self.date.as_ref() {
             struct_ser.serialize_field("date", v)?;
         }
-        if !self.condition.is_empty() {
-            struct_ser.serialize_field("condition", &self.condition)?;
+        if self.condition != 0 {
+            let v = Condition::try_from(self.condition)
+                .map_err(|_| serde::ser::Error::custom(format!("Invalid variant {}", self.condition)))?;
+            struct_ser.serialize_field("condition", &v)?;
         }
         struct_ser.end()
     }
@@ -112,7 +209,7 @@ impl<'de> serde::Deserialize<'de> for DailyForecast {
                             if condition__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("condition"));
                             }
-                            condition__ = Some(map_.next_value()?);
+                            condition__ = Some(map_.next_value::<Condition>()? as i32);
                         }
                     }
                 }

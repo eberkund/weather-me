@@ -2,6 +2,7 @@ package providers
 
 import (
 	"context"
+	weatherv1 "github.com/eberkund/weather-me/gen/weather/v1"
 	"time"
 )
 
@@ -15,7 +16,7 @@ type CurrentResponse struct {
 type DailyForecast struct {
 	Temperature int
 	Date        time.Time
-	Condition   string
+	Condition   weatherv1.Condition
 }
 
 type ForecastResponse struct {

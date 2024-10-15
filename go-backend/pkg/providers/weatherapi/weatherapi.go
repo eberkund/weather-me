@@ -5,10 +5,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	weatherv1 "github.com/eberkund/weather-me/gen/weather/v1"
 	"github.com/eberkund/weather-me/pkg/providers"
 	"github.com/eberkund/weather-me/swagger"
 	"github.com/rs/zerolog/log"
 	"github.com/samber/lo"
+	"strings"
 	"time"
 )
 
@@ -93,10 +95,33 @@ func (o *WeatherAPI) Forecast(ctx context.Context, lat float64, lng float64) (*p
 		return providers.DailyForecast{
 			Temperature: int(day.Day.AvgTempC),
 			Date:        date,
-			Condition:   day.Day.Condition.Text,
+			Condition:   normalizeCondition(day.Day.Condition.Text),
 		}
 	})
 	return &providers.ForecastResponse{
 		Days: days,
 	}, nil
+}
+
+func normalizeCondition(condition string) weatherv1.Condition {
+	switch strings.TrimSpace(condition) {
+	case "Overcast":
+		return weatherv1.Condition_OVERCAST
+	case "Cloudy":
+		return weatherv1.Condition_CLOUDY
+	case "Partly Cloudy":
+		return weatherv1.Condition_PARTLY_CLOUDY
+	case "Sunny":
+		return weatherv1.Condition_SUNNY
+	case "Clear":
+		return weatherv1.Condition_CLEAR
+	case "Mist":
+		return weatherv1.Condition_MIST
+	case "Rainy":
+		fallthrough
+	case "Patchy rain nearby":
+		return weatherv1.Condition_RAINY
+	default:
+		return weatherv1.Condition_CONDITION_UNSPECIFIED
+	}
 }

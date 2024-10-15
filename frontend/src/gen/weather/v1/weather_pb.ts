@@ -34,6 +34,74 @@ proto3.util.setEnumType(WeatherProvider, "weather.v1.WeatherProvider", [
 ]);
 
 /**
+ * @generated from enum weather.v1.Condition
+ */
+export enum Condition {
+  /**
+   * @generated from enum value: CONDITION_UNSPECIFIED = 0;
+   */
+  CONDITION_UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: CLEAR = 1;
+   */
+  CLEAR = 1,
+
+  /**
+   * @generated from enum value: CLOUDY = 2;
+   */
+  CLOUDY = 2,
+
+  /**
+   * @generated from enum value: PARTLY_CLOUDY = 3;
+   */
+  PARTLY_CLOUDY = 3,
+
+  /**
+   * @generated from enum value: OVERCAST = 4;
+   */
+  OVERCAST = 4,
+
+  /**
+   * @generated from enum value: MIST = 5;
+   */
+  MIST = 5,
+
+  /**
+   * @generated from enum value: SUNNY = 6;
+   */
+  SUNNY = 6,
+
+  /**
+   * @generated from enum value: RAINY = 7;
+   */
+  RAINY = 7,
+
+  /**
+   * @generated from enum value: SNOWY = 8;
+   */
+  SNOWY = 8,
+
+  /**
+   * @generated from enum value: STORMY = 9;
+   */
+  STORMY = 9,
+}
+// Retrieve enum metadata with: proto3.getEnumType(Condition)
+proto3.util.setEnumType(Condition, "weather.v1.Condition", [
+  { no: 0, name: "CONDITION_UNSPECIFIED" },
+  { no: 1, name: "CLEAR" },
+  { no: 2, name: "CLOUDY" },
+  { no: 3, name: "PARTLY_CLOUDY" },
+  { no: 4, name: "OVERCAST" },
+  { no: 5, name: "MIST" },
+  { no: 6, name: "SUNNY" },
+  { no: 7, name: "RAINY" },
+  { no: 8, name: "SNOWY" },
+  { no: 9, name: "STORMY" },
+]);
+
+/**
  * @generated from message weather.v1.GetCurrentRequest
  */
 export class GetCurrentRequest extends Message<GetCurrentRequest> {
@@ -207,9 +275,9 @@ export class DailyForecast extends Message<DailyForecast> {
   date?: Date;
 
   /**
-   * @generated from field: string condition = 3;
+   * @generated from field: weather.v1.Condition condition = 3;
    */
-  condition = "";
+  condition = Condition.CONDITION_UNSPECIFIED;
 
   constructor(data?: PartialMessage<DailyForecast>) {
     super();
@@ -221,7 +289,7 @@ export class DailyForecast extends Message<DailyForecast> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "temperature", kind: "scalar", T: 2 /* ScalarType.FLOAT */ },
     { no: 2, name: "date", kind: "message", T: Date },
-    { no: 3, name: "condition", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "condition", kind: "enum", T: proto3.getEnumType(Condition) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): DailyForecast {

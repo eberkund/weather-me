@@ -13,10 +13,6 @@ import logo from "~/assets/logo.svg";
 import mapPin from "~/assets/mapPin.svg";
 import { Button } from "~/components/Button";
 import { Card } from "~/components/Card";
-import cloudy from "~/assets/darksky/cloudy.svg";
-import sunny from "~/assets/darksky/clear-day.svg";
-import rainy from "~/assets/darksky/rain.svg";
-import windy from "~/assets/darksky/wind.svg";
 import {
   addPlace,
   Place,
@@ -38,6 +34,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import objectSupport from "dayjs/plugin/objectSupport";
 import { twMerge } from "tailwind-merge";
+import { conditionIcon } from "~/services/icons";
 
 dayjs.extend(utc);
 dayjs.extend(objectSupport);
@@ -208,7 +205,8 @@ export function Index() {
                       }).format("ddd")}
                   </h3>
                   <hr className="divider" />
-                  {day.condition}
+
+                  <img src={conditionIcon(day.condition)} alt="" />
                   <p className="text-white text-4xl">{day.temperature}°</p>
                 </Card>
               ))}

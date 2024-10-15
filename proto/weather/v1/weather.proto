@@ -32,10 +32,23 @@ message GetForecastRequest {
   WeatherProvider provider = 3;
 }
 
+enum Condition {
+  CONDITION_UNSPECIFIED = 0;
+  CLEAR = 1;
+  CLOUDY = 2;
+  PARTLY_CLOUDY = 3;
+  OVERCAST = 4;
+  MIST = 5;
+  SUNNY = 6;
+  RAINY = 7;
+  SNOWY = 8;
+  STORMY = 9;
+}
+
 message DailyForecast {
     float temperature = 1;
     google.type.Date date = 2;
-    string condition = 3;
+    Condition condition = 3;
 }
 
 message GetForecastResponse {
